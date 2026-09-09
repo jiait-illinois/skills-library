@@ -1,6 +1,6 @@
 # Toolkit Web Components
 
-Reference for semantic UI components provided by the WebToolKit.
+Reference for semantic UI components provided by the Web Toolkit.
 
 > **Accessibility note:** For modal/overlay components, keyboard and focus requirements (focus traps, `Escape` to close) are defined authoritatively in `ACCESSIBILITY.md` §1. Where this file shows ARIA attributes inline, they illustrate structure only — the authoritative behavior lives in `ACCESSIBILITY.md`.
 >
@@ -147,7 +147,7 @@ Wrap the video `<iframe>` inside the component. **Note**: The iframe must have a
 >
 > The full ARIA tablist pattern in `ACCESSIBILITY.md` §1 ("Tabs (ARIA tablist) keyboard pattern") applies when you build a tablist **without** `<ilw-tabs>` — hand-rolled tabs must implement it in full.
 >
-> If keyboard navigation does not work in a browser test, that is a component bug: report it to the Webtoolkit owners rather than patching around it with local script.
+> If keyboard navigation does not work in a browser test, that is a component bug: report it to the Web Toolkit owners rather than patching around it with local script.
 
 **Attributes:**
 - `theme`: Color theme (`blue`, `gray`, `white`).

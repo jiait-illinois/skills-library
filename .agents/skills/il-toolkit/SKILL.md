@@ -1,9 +1,9 @@
 ---
-name: uiuc-webtoolkit
-description: Official University of Illinois WebToolKit framework and UI guidelines. Use this skill whenever generating, refactoring, or reviewing frontend code (HTML, CSS, JS) to keep output aligned with the Illinois brand and WCAG 2.2 Level AA accessibility requirements.
+name: il-toolkit
+description: Official University of Illinois Web Toolkit framework and UI guidelines. Use this skill whenever generating, refactoring, or reviewing frontend code (HTML, CSS, JS) to keep output aligned with the Illinois brand and WCAG 2.2 Level AA accessibility requirements.
 ---
 
-# University of Illinois WebToolKit Skill
+# University of Illinois Web Toolkit Skill
 
 This skill serves as the definitive reference for building frontend web interfaces that comply with the University of Illinois brand identity and strict accessibility standards.
 
