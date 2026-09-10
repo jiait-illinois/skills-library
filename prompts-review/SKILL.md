@@ -119,7 +119,7 @@ Prefer this structure:
 4. Rewritten prompt examples
 5. Recommended next experiments
 
-For row-by-row review, use compact fields such as:
+For row-by-row review, use these compact fields:
 
 - Row or timestamp
 - Overall rating such as `strong`, `mixed`, or `weak`
