@@ -123,6 +123,7 @@ For row-by-row review, use compact fields such as:
 
 - Row or timestamp
 - Overall rating such as `strong`, `mixed`, or `weak`
+- Prompt text
 - Main issue
 - Why it matters
 - Suggested rewrite or fix
