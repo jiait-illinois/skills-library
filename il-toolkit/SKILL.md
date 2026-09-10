@@ -12,6 +12,7 @@ When executing a user request, scan the list below to locate the specific refere
 > **Frontend library:** Production Illinois pages load the v3 toolkit (`cdn.toolkit.illinois.edu/3/`). The `ilw-` components documented here belong to the **Web Toolkit v3+**.
 
 ## Layout Best Practices
+<!-- TODO: Remove project-specific file references -->
 - **Base Layout:** All templates must extend `src/templates/base.html` to inherit the brand header, footer, and custom style configuration.
   - Upon initial creation, the base template should follow the [Generic HTML Template](https://builder3.toolkit.illinois.edu/generic_html/index.html)
 
