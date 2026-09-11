@@ -48,21 +48,21 @@ Helpful fields:
 	- Identify whether the input is JSON or CSV.
 	- Identify which field contains the prompt text.
 	- Note any missing but optional columns.
-	- If the dataset is large, state whether you will review all rows or a sample.
-2. Pre-filter non-reviewable conversational rows.
-	- Ignore rows that are not meaningful standalone work-item prompts unless the user explicitly asks to review them.
+	- If the dataset is large, state whether you will review all records or a sample.
+2. Pre-filter non-reviewable conversational records.
+	- Ignore records that are not meaningful standalone work-item prompts unless the user explicitly asks to review them.
 	- Exclude skill invocations that begin with `/`, such as `/prompts-review ...`.
 	- Exclude agent continuation or retry prompts, such as `@agent Continue: ...` and `@agent Try Again`.
 	- Exclude short plan addendums that only amend an existing plan or checklist without enough standalone task context.
-	- If excluded rows are common, mention the exclusion rule in the dataset summary and optionally report a skipped-row count.
+	- If excluded records are common, mention the exclusion rule in the dataset summary and optionally report a skipped-record count.
 3. Establish the review frame.
-	- Treat each row primarily as a prompt-quality review.
+	- Treat each record primarily as a prompt-quality review.
 	- If `response_text` exists, also assess whether the prompt was likely to produce a verifiable, high-quality result.
 	- If token or credit columns exist, include efficiency observations without over-weighting them.
 4. Evaluate each remaining prompt against the rubric in [prompting-best-practices.md](./references/prompting-best-practices.md).
 	- Score or label each prompt consistently.
 	- Prefer concrete findings over generic advice.
-5. Produce row-level findings.
+5. Produce record-level findings.
 	- Identify the strongest and weakest aspects of the prompt.
 	- Quote or summarize the specific wording that caused the issue.
 	- Suggest a revised prompt when the improvement is clear.
@@ -72,7 +72,7 @@ Helpful fields:
 	- Call out cost drivers such as broad prompts, repeated restatement, or missing boundaries when supported by the data.
 7. Return an actionable output.
 	- Include a concise executive summary.
-	- Include row-level results in a compact table when practical.
+	- Include record-level results in a compact table when practical.
 	- Include a short prioritized recommendation list.
 	- Include 2-5 exemplar rewrites if they would teach the pattern better than abstract guidance.
 
@@ -111,12 +111,12 @@ For each prompt, inspect these dimensions:
 ## Decision Points
 
 - If `request_text` is missing or ambiguous, stop and ask which field contains the prompt text.
-- If rows appear to be skill invocations, retry prompts, continuation prompts, or plan-only addendums, exclude them by default instead of rating them `weak` unless the user explicitly asks to review those prompt types.
+- If records appear to be skill invocations, retry prompts, continuation prompts, or plan-only addendums, exclude them by default instead of rating them `weak` unless the user explicitly asks to review those prompt types.
 - If `response_text` is missing, continue with prompt-quality review only.
 - If token or credit fields are missing, skip efficiency scoring instead of guessing.
 - If prompts span unrelated categories, segment the dataset before drawing aggregate conclusions.
 - If the JSON or CSV dataset is too large for exhaustive review, sample deliberately and state the sampling rule.
-- If a prompt is actually a follow-up in a larger conversation, note that the row may understate the available context.
+- If a prompt is actually a follow-up in a larger conversation, note that the record may understate the available context.
 
 ## Output Format
 
@@ -124,17 +124,17 @@ Prefer this structure:
 
 1. Dataset summary
 2. Common findings
-3. Row-by-row review
+3. record-by-record review
 4. Rewritten prompt examples
 5. Recommended next experiments
 
-If the user requests the row-by-row review as a file output, default that file to JSON unless they explicitly ask for another format.
+If the user requests the record-by-record review as a file output, default that file to JSON unless they explicitly ask for another format.
 
-When rows are excluded by the default pre-filter, mention that clearly and do not count them in weak-prompt totals unless the user asked for those prompts to be reviewed.
+When records are excluded by the default pre-filter, mention that clearly and do not count them in weak-prompt totals unless the user asked for those prompts to be reviewed.
 
-For row-by-row review, use these compact fields:
+For record-by-record review, use these compact fields:
 
-- `prompt_id`, row number, or timestamp
+- `prompt_id`, record number, or timestamp
 - Overall rating such as `strong`, `mixed`, or `weak`
 - Exact prompt text (not summarized)
 - Main issue
@@ -146,8 +146,8 @@ For row-by-row review, use these compact fields:
 The review is complete when:
 
 - The prompt-bearing field is identified explicitly
-- Excluded non-reviewable rows are separated from reviewed rows
-- Every reviewed row has at least one concrete finding
+- Excluded non-reviewable records are separated from reviewed records
+- Every reviewed record has at least one concrete finding
 - Aggregate patterns are separated from one-off issues
 - Rewrites preserve the original user intent instead of changing the task
 - Claims about cost, model fit, or output quality are tied to available columns
@@ -158,11 +158,11 @@ The review is complete when:
 Example invocation:
 
 ```text
-/prompts-review Review prompts in prompts.json. Use request_text as the primary prompt field, treat response_text as optional evidence, score each row against prompt engineering best practices, and give me the top five rewrite opportunities.
+/prompts-review Review prompts in prompts.json. Use request_text as the primary prompt field, treat response_text as optional evidence, score each record against prompt engineering best practices, and give me the top five rewrite opportunities.
 ```
 
 Example follow-up:
 
 ```text
-Review this JSON excerpt and group the prompts by anti-pattern. Flag vague prompts, prompts missing acceptance criteria, and prompts that should have been split into plan then implement. If you save the row-by-row review to a file, use JSON.
+Review this JSON excerpt and group the prompts by anti-pattern. Flag vague prompts, prompts missing acceptance criteria, and prompts that should have been split into plan then implement. If you save the record-by-record review to a file, use JSON.
 ```

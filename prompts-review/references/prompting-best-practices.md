@@ -40,11 +40,11 @@ Use these checks:
 - Refine the prompt when the output is weak instead of patching around a bad instruction.
 - Validate the result manually and with tests.
 
-## Row-Level Scoring Heuristic
+## Record-Level Scoring Heuristic
 
 Use a simple three-level rating unless the user asks for numeric scoring.
 
-Before scoring, exclude non-reviewable conversational rows by default unless the user explicitly asks to review them. This includes skill invocations that begin with `/`, agent continuation or retry prompts such as `@agent Continue: ...` or `@agent Try Again`, and short plan addendums that do not stand on their own as work-item prompts.
+Before scoring, exclude non-reviewable conversational records by default unless the user explicitly asks to review them. This includes skill invocations that begin with `/`, agent continuation or retry prompts such as `@agent Continue: ...` or `@agent Try Again`, and short plan addendums that do not stand on their own as work-item prompts.
 
 - `strong`: clear, bounded, contextualized, and verifiable
 - `mixed`: usable but missing important context, constraints, or checks
@@ -68,7 +68,7 @@ Flag these consistently:
 When rewriting a weak prompt:
 
 1. Preserve the original intent.
-2. Narrow the scope to one coherent task.
+2. Narrecord the scope to one coherent task.
 3. Add the relevant target surface, such as the file, function, symbol, or dataset.
 4. Add constraints that materially affect the output.
 5. Add an observable result, test, or review check.
@@ -76,15 +76,15 @@ When rewriting a weak prompt:
 
 ## Suggested Review Output Fields
 
-For each reviewed row, prefer these fields:
+For each reviewed record, prefer these fields:
 
-- Identifier: row number or timestamp
+- Identifier: record number or timestamp
 - Rating: strong, mixed, weak
 - Primary issue
 - Secondary issues
 - Evidence from the prompt text
 - Suggested rewrite
-- Notes on model, mode, or cost if supported by the row data
+- Notes on model, mode, or cost if supported by the record data
 
 ## Cautions
 
