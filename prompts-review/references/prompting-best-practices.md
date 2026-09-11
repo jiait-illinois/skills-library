@@ -44,6 +44,8 @@ Use these checks:
 
 Use a simple three-level rating unless the user asks for numeric scoring.
 
+Before scoring, exclude non-reviewable conversational rows by default unless the user explicitly asks to review them. This includes skill invocations that begin with `/`, agent continuation or retry prompts such as `@agent Continue: ...` or `@agent Try Again`, and short plan addendums that do not stand on their own as work-item prompts.
+
 - `strong`: clear, bounded, contextualized, and verifiable
 - `mixed`: usable but missing important context, constraints, or checks
 - `weak`: vague, oversized, under-specified, or not verifiable
@@ -89,3 +91,4 @@ For each reviewed row, prefer these fields:
 - Do not infer prompt quality from output quality alone; weak outputs can still follow a decent prompt if context was unavailable.
 - Do not treat token count or AI credits as a defect by themselves; only flag them when the prompt structure likely caused waste.
 - Do not overstate conclusions from a partial CSV excerpt or a sampled review.
+- Do not label excluded conversational follow-ups as `weak`; report them separately as skipped or out of scope unless the user asked to include them.

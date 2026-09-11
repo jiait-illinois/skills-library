@@ -49,22 +49,28 @@ Helpful fields:
 	- Identify which field contains the prompt text.
 	- Note any missing but optional columns.
 	- If the dataset is large, state whether you will review all rows or a sample.
-2. Establish the review frame.
+2. Pre-filter non-reviewable conversational rows.
+	- Ignore rows that are not meaningful standalone work-item prompts unless the user explicitly asks to review them.
+	- Exclude skill invocations that begin with `/`, such as `/prompts-review ...`.
+	- Exclude agent continuation or retry prompts, such as `@agent Continue: ...` and `@agent Try Again`.
+	- Exclude short plan addendums that only amend an existing plan or checklist without enough standalone task context.
+	- If excluded rows are common, mention the exclusion rule in the dataset summary and optionally report a skipped-row count.
+3. Establish the review frame.
 	- Treat each row primarily as a prompt-quality review.
 	- If `response_text` exists, also assess whether the prompt was likely to produce a verifiable, high-quality result.
 	- If token or credit columns exist, include efficiency observations without over-weighting them.
-3. Evaluate each prompt against the rubric in [prompting-best-practices.md](./references/prompting-best-practices.md).
+4. Evaluate each remaining prompt against the rubric in [prompting-best-practices.md](./references/prompting-best-practices.md).
 	- Score or label each prompt consistently.
 	- Prefer concrete findings over generic advice.
-4. Produce row-level findings.
+5. Produce row-level findings.
 	- Identify the strongest and weakest aspects of the prompt.
 	- Quote or summarize the specific wording that caused the issue.
 	- Suggest a revised prompt when the improvement is clear.
-5. Produce dataset-level findings.
+6. Produce dataset-level findings.
 	- Identify repeated anti-patterns.
 	- Group issues such as vague asks, oversized scope, weak constraints, missing verification, thin context, or poor model/mode fit.
 	- Call out cost drivers such as broad prompts, repeated restatement, or missing boundaries when supported by the data.
-6. Return an actionable output.
+7. Return an actionable output.
 	- Include a concise executive summary.
 	- Include row-level results in a compact table when practical.
 	- Include a short prioritized recommendation list.
@@ -105,6 +111,7 @@ For each prompt, inspect these dimensions:
 ## Decision Points
 
 - If `request_text` is missing or ambiguous, stop and ask which field contains the prompt text.
+- If rows appear to be skill invocations, retry prompts, continuation prompts, or plan-only addendums, exclude them by default instead of rating them `weak` unless the user explicitly asks to review those prompt types.
 - If `response_text` is missing, continue with prompt-quality review only.
 - If token or credit fields are missing, skip efficiency scoring instead of guessing.
 - If prompts span unrelated categories, segment the dataset before drawing aggregate conclusions.
@@ -123,6 +130,8 @@ Prefer this structure:
 
 If the user requests the row-by-row review as a file output, default that file to JSON unless they explicitly ask for another format.
 
+When rows are excluded by the default pre-filter, mention that clearly and do not count them in weak-prompt totals unless the user asked for those prompts to be reviewed.
+
 For row-by-row review, use these compact fields:
 
 - `prompt_id`, row number, or timestamp
@@ -137,6 +146,7 @@ For row-by-row review, use these compact fields:
 The review is complete when:
 
 - The prompt-bearing field is identified explicitly
+- Excluded non-reviewable rows are separated from reviewed rows
 - Every reviewed row has at least one concrete finding
 - Aggregate patterns are separated from one-off issues
 - Rewrites preserve the original user intent instead of changing the task
