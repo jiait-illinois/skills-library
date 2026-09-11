@@ -54,6 +54,7 @@ Helpful fields:
 	- Exclude skill invocations that begin with `/`, such as `/prompts-review ...`.
 	- Exclude agent continuation or retry prompts, such as `@agent Continue: ...` and `@agent Try Again`.
 	- Exclude short plan addendums that only amend an existing plan or checklist without enough standalone task context.
+	- Exclude plan implementation prompts such as `Start implementation`.
 	- If excluded records are common, mention the exclusion rule in the dataset summary and optionally report a skipped-record count.
 3. Establish the review frame.
 	- Treat each record primarily as a prompt-quality review.
