@@ -1,20 +1,20 @@
 ---
 name: prompts-review
-description: 'Review a CSV of agent or Copilot prompts and evaluate prompt quality, context quality, scope, validation, model fit, and cost signals. Use when auditing prompt datasets, improving user prompts, scoring prompt engineering quality, or generating rewritten prompts and aggregate findings from CSV rows.'
-argument-hint: 'Path to a CSV file or a pasted CSV snippet to review'
+description: 'Review a JSON or CSV dataset of agent or Copilot prompts and evaluate prompt quality, context quality, scope, validation, model fit, and cost signals. Use when auditing prompt datasets, improving user prompts, scoring prompt engineering quality, or generating rewritten prompts and aggregate findings from structured rows or records.'
+argument-hint: 'Path to a JSON or CSV file in the workspace, or a pasted JSON/CSV snippet to review'
 ---
 
 # Prompt Review
 
-Use this skill to review a CSV where each row represents a user prompt or prompt-response pair from an agent session.
+Use this skill to review a JSON or CSV dataset where each row or record represents a user prompt or prompt-response pair from an agent session.
 
-Typical schema:
+Typical fields:
 
-```csv
-timestamp,request_text,model,mode,prompt_tokens,completion_tokens,ai_credits,response_text
+```text
+prompt_id,request_text,response_text,model,mode,prompt_tokens,completion_tokens,ai_credits,timestamp
 ```
 
-The schema can vary. The minimum useful input is a column containing the prompt text, usually `request_text`.
+The schema can vary. The minimum useful input is a field containing the prompt text, usually `request_text`. In either JSON or CSV, expect fields such as `prompt_id`, `request_text`, `response_text`, `model`, `mode`, `prompt_tokens`, `completion_tokens`, `ai_credits`, and `timestamp` when available.
 
 ## When to Use
 
@@ -28,12 +28,13 @@ The schema can vary. The minimum useful input is a column containing the prompt 
 
 Provide one of the following:
 
-- A CSV file path in the workspace
-- A pasted CSV excerpt
-- A description of the schema if column names differ from the example
+- A JSON or CSV file path in the workspace
+- A pasted JSON or CSV excerpt
+- A description of the schema if field names differ from the example
 
-Helpful columns:
+Helpful fields:
 
+- `prompt_id`: useful for stable row or record identification in reports
 - `request_text`: the prompt to evaluate
 - `response_text`: useful for checking whether the prompt gave the model enough direction
 - `model`: useful for model-fit observations
@@ -44,9 +45,10 @@ Helpful columns:
 ## Procedure
 
 1. Confirm the usable schema.
-	- Identify which column contains the prompt text.
+	- Identify whether the input is JSON or CSV.
+	- Identify which field contains the prompt text.
 	- Note any missing but optional columns.
-	- If the CSV is large, state whether you will review all rows or a sample.
+	- If the dataset is large, state whether you will review all rows or a sample.
 2. Establish the review frame.
 	- Treat each row primarily as a prompt-quality review.
 	- If `response_text` exists, also assess whether the prompt was likely to produce a verifiable, high-quality result.
@@ -102,11 +104,11 @@ For each prompt, inspect these dimensions:
 
 ## Decision Points
 
-- If `request_text` is missing or ambiguous, stop and ask which column contains the prompt text.
+- If `request_text` is missing or ambiguous, stop and ask which field contains the prompt text.
 - If `response_text` is missing, continue with prompt-quality review only.
 - If token or credit fields are missing, skip efficiency scoring instead of guessing.
 - If prompts span unrelated categories, segment the dataset before drawing aggregate conclusions.
-- If the CSV is too large for exhaustive review, sample deliberately and state the sampling rule.
+- If the JSON or CSV dataset is too large for exhaustive review, sample deliberately and state the sampling rule.
 - If a prompt is actually a follow-up in a larger conversation, note that the row may understate the available context.
 
 ## Output Format
@@ -119,9 +121,11 @@ Prefer this structure:
 4. Rewritten prompt examples
 5. Recommended next experiments
 
+If the user requests the row-by-row review as a file output, default that file to JSON unless they explicitly ask for another format.
+
 For row-by-row review, use these compact fields:
 
-- Row or timestamp
+- `prompt_id`, row number, or timestamp
 - Overall rating such as `strong`, `mixed`, or `weak`
 - Exact prompt text (not summarized)
 - Main issue
@@ -132,7 +136,7 @@ For row-by-row review, use these compact fields:
 
 The review is complete when:
 
-- The prompt-bearing column is identified explicitly
+- The prompt-bearing field is identified explicitly
 - Every reviewed row has at least one concrete finding
 - Aggregate patterns are separated from one-off issues
 - Rewrites preserve the original user intent instead of changing the task
@@ -144,11 +148,11 @@ The review is complete when:
 Example invocation:
 
 ```text
-/prompts-review Review prompts in prompts.csv. Use request_text as the primary prompt column, treat response_text as optional evidence, score each row against prompt engineering best practices, and give me the top five rewrite opportunities.
+/prompts-review Review prompts in prompts.json. Use request_text as the primary prompt field, treat response_text as optional evidence, score each row against prompt engineering best practices, and give me the top five rewrite opportunities.
 ```
 
 Example follow-up:
 
 ```text
-Review this CSV excerpt and group the prompts by anti-pattern. Flag vague prompts, prompts missing acceptance criteria, and prompts that should have been split into plan then implement.
+Review this JSON excerpt and group the prompts by anti-pattern. Flag vague prompts, prompts missing acceptance criteria, and prompts that should have been split into plan then implement. If you save the row-by-row review to a file, use JSON.
 ```
