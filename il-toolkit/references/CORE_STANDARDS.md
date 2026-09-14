@@ -3,27 +3,29 @@
 This component library follows University of Illinois branding and strict accessibility guidelines.
 
 ## 1. CDN & Assets
-Production Illinois pages load the v3 toolkit.
+Production Illinois pages load the v3 toolkit and associated assets.
 
-<!-- TODO: Add header contents from generic HTML template link -->
 ```html
-<!-- Toolkit v3 (required for ilw- web components) -->
-<link rel="stylesheet" href="https://cdn.toolkit.illinois.edu/3/toolkit.css" />
-<script src="https://cdn.toolkit.illinois.edu/3/toolkit.js" type="module"></script>
+<link rel="icon" href="https://cdn.brand.illinois.edu/favicon.ico"> 
+<link rel="apple-touch-icon" href="https://cdn.brand.illinois.edu/touch-icon-40x40.png">
+<link rel="apple-touch-icon" sizes="152x152" href="https://cdn.brand.illinois.edu/touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="167x167" href="https://cdn.brand.illinois.edu/touch-icon-167x167.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://cdn.brand.illinois.edu/touch-icon-180x180.png">
+<link rel="dns-prefetch" href="//cdn.toolkit.illinois.edu"> 
+<link rel="dns-prefetch" href="//cdn.disability.illinois.edu"> 
+<link rel="stylesheet" href="//cdn.toolkit.illinois.edu/3/toolkit.css">
+<script type="module" src="//cdn.toolkit.illinois.edu/3/toolkit.js"></script>
+<script src="//cdn.disability.illinois.edu/skipto.min.js"></script>
+<script>var SkipToConfig = { 'settings': { 'skipTo': { colorTheme: 'illinois' } } };</script>
 ```
-
-> **Load order:** The snippets in this skill load the v3 stylesheet before the v2 stylesheet, which means that where the two define equal-specificity rules for the same element, v2 wins the cascade tie. Whether this matches the officially recommended order has not been verified — keep whatever order the consuming site already uses consistent across its pages rather than reordering.
 
 ### Versioning
 
-<!-- TODO: One -->
-The two URLs above pin differently, and this is deliberate to reflect production — but be aware of what each means:
+The Toolkit URL pinning above is deliberate to reflect development — but be aware of it means:
 
-<!-- TODO: Pin major for continuous maintenance, pin to minor for no maintenance -->
 - `3/` is a **floating major**. It picks up minor and patch releases automatically, so a page that works today can change behavior without a code change.
 
-Not every `ilw-` component is necessarily bundled in `3/toolkit.js`, and the bundle's contents drift over time because `3/` floats. Some components are (or were) published at their own independently versioned per-component paths — e.g. `cdn.toolkit.illinois.edu/ilw-tooltip/1.2/ilw-tooltip.js` (see `OVERLAYS.md` §3). **As of August 2026, `ilw-tooltip` is registered by the `3/toolkit.js` bundle itself**, so the standalone asset is only needed when the bundle is not loaded — and loading both risks double registration of the custom element. Before adding a per-component asset, check whether the component is already defined by the bundle; before assuming a component is in the bundle, check whether its reference file names a separate CDN path.
-
+<!-- TODO: Provide example -->
 For production deployments, prefer pinning an exact version over the floating `3/` so releases are reproducible.
 
 ## 2. Naming Conventions

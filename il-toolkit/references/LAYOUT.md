@@ -50,9 +50,6 @@ This is the reference skeleton for a standard sub-page: both CDNs loaded, header
     <link rel="stylesheet" href="https://cdn.toolkit.illinois.edu/3/toolkit.css">
     <script src="https://cdn.toolkit.illinois.edu/3/toolkit.js" type="module"></script>
 
-    <!-- Toolkit v2 / 2.16 (base toolkit; loaded alongside v3 in production) -->
-    <link rel="stylesheet" href="https://cdn.toolkit.illinois.edu/2.16/toolkit.css">
-    <script src="https://cdn.toolkit.illinois.edu/2.16/toolkit.js"></script>
 </head>
 <body style="margin: 0;">
 <ilw-page class="ilw-margin ilw-font">
@@ -166,7 +163,6 @@ This is the reference skeleton for a standard sub-page: both CDNs loaded, header
 - `aria-current="page"` marks the active link in both the breadcrumbs and the section nav.
 - `<ilw-back-to-top>` sits outside `<main>` because it is page furniture, not page content.
 - The `<ilw-breadcrumbs>` child markup is inferred from its "nested list of parent pages" description and has not been verified against the live component — confirm the expected inner structure before relying on it.
-- The v3 stylesheet is loaded before the v2 stylesheet, so where the two define equal-specificity rules, v2 wins the cascade tie. Keep the order consistent site-wide; see the load-order note in `CORE_STANDARDS.md` §1.
 
 ## 3. Header & Banner Options
 <!-- TODO: Does this exist, is it necessary? -->
