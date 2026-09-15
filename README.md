@@ -1,3 +1,20 @@
+# Installation
+**Recommended prerequisite**: Follow the GitHub CLI (`gh`) [installation instructions](https://github.com/cli/cli#installation) before using skills in this repo.
+
+The `gh skill` command helps manage skill versions so you can install, update, and keep track of the skill set used by your environment. For more details, see the GitHub CLI documentation: [gh skill install](https://cli.github.com/manual/gh_skill_install).
+
+For example, run the following command to install the [Illinois Web Toolkit skill](#il-toolkit):
+
+```bash
+gh skill install techservicesillinois/jiait-skills il-toolkit --agent github-copilot --scope project
+```
+
+# Disclaimer
+<!-- TODO: Disclaim skills are deployed as is, skills will increase token usage,
+results may vary depending on coding assistant & model used, dev responsibilities,
+by using these skills or any modified form of them, you assume full responsibility for the generated code and acknowledge
+that the maintainer(s) are not liable for any software defects present in code generated using these skills.
+-->
 # Skills
 ## [il-toolkit](il-toolkit/SKILL.md)
 Official University of Illinois Web Toolkit framework and UI guidelines. Use this skill whenever generating, refactoring, or reviewing frontend code (HTML, CSS, JS) to keep output aligned with the Illinois brand and WCAG 2.2 Level AA accessibility requirements.
