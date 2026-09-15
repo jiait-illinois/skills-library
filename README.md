@@ -10,11 +10,14 @@ gh skill install techservicesillinois/jiait-skills il-toolkit --agent github-cop
 ```
 
 # Disclaimer
-<!-- TODO: Disclaim skills are deployed as is, skills will increase token usage,
-results may vary depending on coding assistant & model used, dev responsibilities,
-by using these skills or any modified form of them, you assume full responsibility for the generated code and acknowledge
-that the maintainer(s) are not liable for any software defects present in code generated using these skills.
--->
+These skills are provided as is, without warranties or guarantees of performance, suitability, or correctness.
+
+Using these skills may increase token usage and related costs. Output quality, behavior, and reliability may vary depending on the coding assistant (eg. GitHub Copilot), model, system instructions, workspace context, and any local modifications to the skills.
+
+Developers are responsible for reviewing, verifying, securing, and adequately testing all generated or modified code before using it in any environment. This includes confirming correctness, accessibility, security, compliance, and fitness for the intended use case.
+
+By using these skills, or any modified form of them, you assume full responsibility for the generated code and acknowledge that the maintainer(s) of this repository are not liable for any software defects, failures, losses, or other issues present in code generated with these skills.
+
 # Skills
 ## [il-toolkit](il-toolkit/SKILL.md)
 Official University of Illinois Web Toolkit framework and UI guidelines. Use this skill whenever generating, refactoring, or reviewing frontend code (HTML, CSS, JS) to keep output aligned with the Illinois brand and WCAG 2.2 Level AA accessibility requirements.
