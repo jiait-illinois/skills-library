@@ -7,7 +7,7 @@ argument-hint: End-user acceptance tests in the prompt or attached Markdown file
 
 Use this skill to generate a new automated browser test suite or update an existing suite from end-user acceptance tests, user stories, or a Markdown file supplied in the prompt.
 
-This skill is intentionally agnostic to the application code language and web framework. Its job is to inspect the current repository, find the established testing conventions, and add the smallest coherent set of browser tests that proves the requested user-facing behavior.
+This skill is intentionally agnostic to the application code language and web framework. Its job is to inspect the current repository, identify the established testing conventions, and add the smallest coherent set of browser tests needed to prove the requested user-facing behavior.
 
 ## When to Use
 
@@ -15,94 +15,75 @@ This skill is intentionally agnostic to the application code language and web fr
 - Expand coverage of an existing browser test suite
 - Add regression coverage for recently implemented UI behavior
 - Review an existing suite and fill only uncovered acceptance criteria
-- Update role-based, CRUD, navigation, or search coverage in a web application
-
-## Defaults
-
-- Use the repository’s existing browser automation framework when one is already present
-- If the user explicitly names a browser automation framework, use that
-- If no browser automation framework is present and none is specified, use Playwright
-- Use the repository’s existing test runner or unit-testing framework conventions when that is how browser tests are already organized
-- If the user explicitly names a test runner, use that
-- If neither exists clearly in the repo, use the default runner paired with the chosen browser framework
-- Reuse the existing browser-test folder structure, fixtures, helpers, and commands when possible
+- Update role-based, CRUD, navigation, or workflow coverage in a web application
 
 ## Inputs
 
 Provide one or more of the following:
 
 - User stories or acceptance tests directly in the prompt
-- A Markdown file containing end-user acceptance tests or stories
+- A Markdown file containing end-user acceptance tests or user stories
 - The path to an existing browser test file or suite to extend
-- The name of a preferred test runner or browser framework, if the default should be overridden
+- The name of a preferred browser automation framework, if it should override the default
+- The name of a preferred test runner, if it should override the default
 
 Helpful context:
 
-- Existing test file paths
-- Current browser test commands or Makefile targets
+- Existing test commands, Makefile targets, or CI workflow names
 - Authentication or role assumptions
 - Seed data expectations
 - Known selectors, test IDs, or page object patterns
-- Whether the task is to create a new suite, update an existing suite, or only close coverage gaps
+- Whether the task is to create a new suite, update an existing suite, or close only specific coverage gaps
+
+## Defaults
+
+- Use the repository's existing browser automation framework when one is already present
+- If the user explicitly names a browser automation framework, use that
+- If no browser automation framework is present and none is specified, use Playwright
+- Use the repository's existing test runner or browser-test execution pattern when one is already present
+- If the user explicitly names a test runner, use that
+- Reuse the existing browser-test directory structure, fixtures, helpers, setup, and commands whenever possible
 
 ## Procedure
 
-1. Confirm the source of truth.
-   - Identify whether the acceptance criteria are in the prompt or in an attached Markdown file.
-   - If the task is large, restate the requested coverage slices before implementation.
-
-2. Inspect the existing test environment.
-   - Find the current test runner, browser automation framework, test directories, helper modules, fixtures, and commands.
-   - Prefer the existing stack over introducing a new one.
-   - If no browser automation framework exists, default to Playwright.
-
-3. Map acceptance criteria to tests.
-   - Build a coverage list from each acceptance criterion to one test, one assertion group, or one explicit gap.
-   - Note which criteria are already covered and which need implementation.
-   - Prefer updating existing tests when that is cleaner than adding a new file.
-
+1. Confirm the acceptance-test source.
+	- Identify whether the user stories are in the prompt or in an attached Markdown file.
+	- If the task is broad, restate the requested coverage slices before implementation.
+2. Inspect the current test environment.
+	- Identify the existing browser automation framework, test runner, test directories, fixtures, helpers, and execution commands.
+	- Prefer the current stack over introducing a new one.
+	- If no browser framework exists, use Playwright.
+3. Map acceptance criteria to current coverage.
+	- Determine which criteria are already covered, partially covered, or uncovered.
+	- Prefer adding focused assertions to existing tests when that is cleaner than adding entirely new flows.
+	- If coverage gaps are large, produce a short plan before editing.
 4. Bound the scope before writing code.
-   - For broad requests, separate planning from implementation.
-   - Keep role-based suites pragmatic: verify each role’s distinct capabilities without duplicating another role’s entire suite.
-   - Use loops, parametrization, shared helpers, or page objects when they reduce repetition without hiding test intent.
-
-5. Implement against the current conventions.
-   - Match the repo’s assertion style, fixture style, naming, and folder layout.
-   - Prefer robust selectors that already exist in the app or tests.
-   - Avoid adding broad infrastructure unless the current repo clearly lacks what is needed.
-
-6. Verify behavior.
-   - Run the narrowest relevant browser tests first.
-   - Then run the existing broader browser-test command if one exists.
-   - If execution requires setup steps such as a local server, test database, or Makefile targets, follow the existing project workflow.
-
+	- Keep the work to one coherent feature slice, role slice, or approved plan.
+	- Keep role-based suites pragmatic: verify distinct capabilities without duplicating another role's entire suite.
+	- Use loops, parametrization, shared helpers, or page objects when they reduce repetition without hiding test intent.
+5. Implement using repository conventions.
+	- Match the current naming, fixture style, assertions, and file layout.
+	- Prefer robust selectors that already exist in the app or tests.
+	- Add the smallest helper abstraction that materially reduces duplication.
+6. Validate the changes.
+	- Run the narrowest relevant browser tests first.
+	- Then run the existing broader browser-test command if one exists.
+	- Follow the repository's existing setup sequence for local servers, test databases, or other prerequisites.
 7. Report outcomes clearly.
-   - State what was added or updated.
-   - State which acceptance criteria are now covered.
-   - Call out any requested criteria that were already covered.
-   - If tests reveal product bugs or missing behavior, report them separately from test changes and do not silently change product behavior unless the user requested that.
-
-## Review Rubric
-
-For each requested acceptance criterion, check:
-
-1. Is the user-facing behavior observable in a browser?
-2. Is there an existing test that already covers it?
-3. Can coverage be added with a focused assertion instead of a new end-to-end flow?
-4. Does the proposed test use the repo’s current framework and helper patterns?
-5. Is the verification deterministic and reasonably fast?
-6. Does the suite avoid duplicating equivalent coverage across roles or pages?
+	- State what was added or updated.
+	- State which acceptance criteria are now covered.
+	- State which requested criteria were already covered.
+	- If tests reveal product bugs or missing behavior, report them separately from the test changes and do not silently change product behavior unless the user requested that.
 
 ## Decision Points
 
-- If the user provides both stories and an existing failing suite, prefer updating the existing suite rather than rewriting it.
-- If framework detection is ambiguous, inspect the repo before choosing.
-- If the repo has Selenium, Cypress, or Playwright already, stay with that framework unless the user explicitly wants a migration.
-- If the repo has no browser framework, use Playwright by default.
-- If the existing unit-test runner cannot sensibly host browser tests, use the runner native to the selected browser framework and explain why.
-- If the acceptance tests are too broad for one pass, propose a role-based or feature-based implementation order first.
-- If authentication, test data, or environment setup is unclear, ask for the missing prerequisite only when inspection of the repo cannot resolve it.
-- If a requested assertion would require changing product behavior, implement the test only if the expected behavior is already clearly defined; otherwise report the mismatch.
+- If the repository already uses Playwright, Selenium, or Cypress, stay with that framework unless the user explicitly requests a migration.
+- If the repository has no browser automation framework, use Playwright by default.
+- If the repository already has a test runner or established browser-test command, reuse it instead of introducing a new one.
+- If the acceptance criteria are too broad for one pass, split the work by role, feature, or workflow and plan first.
+- If the user asks to update an existing suite, prefer extending it over rewriting it.
+- If authentication, test data, or environment setup is unclear, inspect the repository first and ask only for the missing prerequisite that cannot be resolved locally.
+- If a requested assertion depends on behavior not clearly implemented in the product, add the test only when the expected behavior is explicitly defined; otherwise report the mismatch.
 
 ## Output Format
 
@@ -116,16 +97,16 @@ Prefer this structure:
 
 When the task is planning-only, return:
 
-- detected framework and runner
-- target files
+- detected browser framework and test runner
+- target files or likely target files
 - acceptance-criteria-to-test mapping
-- execution plan
+- implementation order
 - open risks or blockers
 
 When the task is implementation, return:
 
 - files updated
-- new helpers or parametrization added
+- helpers or parametrization added
 - coverage gained
 - validation results
 - remaining gaps, if any
@@ -135,10 +116,10 @@ When the task is implementation, return:
 The work is complete when:
 
 - the acceptance-test source is identified explicitly
-- the existing test framework and browser automation stack are identified explicitly
-- new coverage aligns with current repo conventions
+- the existing browser automation framework and execution pattern are identified explicitly
+- new coverage follows the repository's current test conventions
 - duplicate coverage is minimized through shared helpers or parametrization where useful
-- each requested acceptance criterion is either covered, reported as already covered, or called out as blocked
+- each requested acceptance criterion is covered, reported as already covered, or called out as blocked
 - at least one executable validation step is performed when the environment allows it
 - product bugs discovered through testing are reported separately from the test implementation
 
@@ -146,8 +127,18 @@ The work is complete when:
 
 Example invocation:
 
-Create or update browser tests from the attached user stories. Reuse the repo’s existing browser-test framework and runner if present. Keep role-based coverage pragmatic, use shared helpers where helpful, and verify with the project’s existing browser-test command.
+```text
+Create or update browser tests from the attached user stories. Reuse the repo's existing browser-test framework and runner if present. Keep role-based coverage pragmatic, use shared helpers where helpful, and verify with the project's existing browser-test command.
+```
 
 Example follow-up:
 
-Inspect the current suite and close only the uncovered acceptance criteria in the attached Markdown file. Prefer updating existing tests over adding new ones, and report any product bugs found during test execution without changing the application code.
+```text
+Inspect the current browser test suite and close only the uncovered acceptance criteria in the attached Markdown file. Prefer updating existing tests over adding new ones, and report any product bugs found during test execution without changing the application code.
+```
+
+Example with explicit framework override:
+
+```text
+Generate browser tests for the acceptance criteria in stories.md. The app language and web framework do not matter; inspect the repo and use the existing test runner if one is present. Use Selenium for browser automation, not the default.
+```
