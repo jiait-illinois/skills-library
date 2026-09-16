@@ -19,6 +19,9 @@ Developers are responsible for reviewing, verifying, securing, and adequately te
 By using these skills, or any modified form of them, you assume full responsibility for the generated code and acknowledge that the maintainer(s) of this repository are not liable for any software defects, failures, losses, or other issues present in code generated with these skills.
 
 # Skills
+## [browser-tests](browser-tests/SKILL.md)
+Generate or update automated browser test suites from end-user acceptance tests or user stories. Reuse the repository's existing test runner and browser automation framework when present; otherwise use the user-specified framework or default to Playwright.
+
 ## [il-toolkit](il-toolkit/SKILL.md)
 Official University of Illinois Web Toolkit framework and UI guidelines. Use this skill whenever generating, refactoring, or reviewing frontend code (HTML, CSS, JS) to keep output aligned with the Illinois brand and WCAG 2.2 Level AA accessibility requirements.
 
