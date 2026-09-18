@@ -25,6 +25,9 @@ Generate or update automated browser test suites from end-user acceptance tests 
 ## [il-toolkit](il-toolkit/SKILL.md)
 Official University of Illinois Web Toolkit framework and UI guidelines. Use this skill whenever generating, refactoring, or reviewing frontend code (HTML, CSS, JS) to keep output aligned with the Illinois brand and WCAG 2.2 Level AA accessibility requirements.
 
+**NOTE**: Accessibility evaluation is an iterative process and needs to be conducted periodically, especially as changes are made and the site/software issues are corrected. It is highly recommended that a formal evaluation be conducted before applications or software updates are deployed via
+[this form](https://help.uillinois.edu/TDClient/42/UIUC/Requests/Service/996/Accessibility-Review-Request-Non-Tech-Services/Request).
+
 ## [prompts-review](prompts-review/SKILL.md)
 Reviews a JSON or CSV dataset of agent or GitHub Copilot prompts and evaluates prompt quality, context quality, scope, validation, model fit, and cost signals. Use when auditing prompt datasets, improving user prompts, scoring prompt engineering quality, or generating rewritten prompts and aggregate findings from structured rows or records.
 
