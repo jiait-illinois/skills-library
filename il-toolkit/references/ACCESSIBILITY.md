@@ -16,6 +16,7 @@ The application aims for **WCAG 2.2 AA** compliance to ensure inclusivity for al
     - Use a roving `tabindex` (active tab `tabindex="0"`, inactive tabs `tabindex="-1"`); the active tab carries `aria-selected="true"`.
     - `Tab` moves focus out of the tablist and into the active panel.
 - **Auto-moving content (carousels, etc.)**: Any content that auto-advances MUST provide a visible pause/stop control, MUST pause on hover/focus, and MUST respect the user's `prefers-reduced-motion` setting by disabling auto-play when reduced motion is requested. This satisfies WCAG 2.2 SC 2.2.2. **The standing rule is to not auto-advance at all**: ship `<ilw-carousel>` paused (omit `playing`, or set `playing="false"`) so SC 2.2.2 is met unconditionally. See `TOOLKIT_COMPONENTS.md` §2 for the carousel rule and the narrow exception.
+- **Target Size**: interactive targets must be at least 24 × 24 CSS pixels or meet a WCAG 2.2 exception, such as sufficient spacing around a smaller target. Apply this to icon buttons, table actions, search buttons, close buttons, pagination, and similar controls.
 
 ## 2. Semantic Structure & Landmarks
 - **Skip link**: Provide a "Skip to main content" link as the first focusable element on the page, targeting an `id` on the `<main>` element. It may be visually hidden until focused, but it MUST become visible on `:focus` — `.ilw-sr-only` alone is not sufficient for this, since it hides content unconditionally (whether the toolkit reveals it on focus is unverified). Check whether `<ilw-page>`/`<ilw-header>` already renders a skip link before adding a duplicate.
@@ -26,6 +27,8 @@ Use HTML5 landmark elements to provide a map for screen reader users:
 - `<main>`: The unique content of the current page.
 - `<footer>`: Site-wide copyright, contact, and legal links.
 - `<section>`: Use only when a thematic grouping of content has a heading.
+
+Require **all visible page content** to be contained in an appropriate landmark. There must be exactly one primary `<main>` region, and page titles, alerts, forms, and dynamically rendered content must not be inserted outside the landmark structure.
 
 ## 3. Heading Hierarchy
 Headings must be nested sequentially without skipping levels:
@@ -45,6 +48,8 @@ Always use the following attributes as defined in the component documentation:
 - `aria-labelledby`: Point to a heading or label that describes the element.
 - `aria-current="page"`: Identify the active link in a navigation list.
 
+The accessible name of an interactive control must contain its visible label, in the same order. Do not use aria-label to replace visible text with different wording. Prefer deriving the accessible name directly from visible content.
+
 ## 5. Media & Color
 - **Alt Text**: 
     - Meaningful images: Provide concise, descriptive text.
@@ -62,6 +67,12 @@ Always use the following attributes as defined in the component documentation:
 - **Validation**: Error messages must be linked to inputs using `aria-describedby`.
   - For dynamically validated forms, avoid using `aria-live` for every small validation change — this can become disruptive for screen-reader users.
 - **Grouping**: Use `<fieldset>` and `<legend>` for groups of related controls (radio buttons, checkboxes).
+- Custom controls and dynamically generated controls must also have accessible names. Add a development check that every form control has a non-empty computed accessible name.
+- Require the complete text of labels, selected values, dropdown options, validation messages, and table values to remain available. Prefer wrapping or resizing; do not use irreversible ellipsis or clipping for essential content.
+- When an asterisk is used, require visible instructions before the form: “Fields marked with an asterisk (*) are required.” The asterisk should be hidden from screen readers if the control already exposes its required state programmatically.
+- When another selection makes a field mandatory, update both the visible required indicator and the programmatic state (`required` or `aria-required="true"`) as soon as the condition applies—not only after submission. Provide explanatory instructions where the dependency may not be obvious.
+- Require preservation of all valid user-entered and selected values when validation fails. Users must not be asked to re-enter unchanged information during the same process unless necessary for security or the value has become invalid.
+- Browser-native validation must not be the only error mechanism. Provide persistent inline errors that identify the problem and correction, associate them with the input using `aria-describedby`, expose invalid state with `aria-invalid="true"`, and keep messages visible until resolved.
 
 ## 7. Tables
 
@@ -114,11 +125,15 @@ Ensure error messages are clear, specific, and available to screen readers. Iden
 
 Ensure error messages remain visible until the user has corrected the error or the validation state changes.
 
+Require error messages to have a visible text label and distinguishable visual treatment, such as an icon, heading, border, or sufficient contrast. Color alone must not communicate message type.
+
 ## 9. Status Messages
 - Screen readers should be able to detect important status changes without requiring the user to move focus to the message.
 - A status update should generally not steal keyboard focus from the user's current location
 - Make messages meaningful- Don't announce generic messages such as: "Success"
-- Don't rely on color alone - Dont just show green color for success, instead show text for e.g- success : Record was saved 
+- Don't rely on color alone - Dont just show green color for success, instead show text for e.g- success : Record was saved
+- Define implementation requirements for dynamic messages: use `role="status"` or a polite live region for routine confirmations; use `role="alert"` or an assertive live region only for urgent errors. The live-region container should exist before its content changes. Messages must be specific and must not move focus unless focus movement is necessary.
+- Require success messages to have a visible text label and distinguishable visual treatment, such as an icon, heading, border, or sufficient contrast. Color alone must not communicate message type.
 
 ## 10. Screen Reader Only Content
 Use the `.ilw-sr-only` utility class to provide information that is only accessible to screen readers. This is essential for providing context to links, labeling icon-only buttons, or offering instructions that are visually apparent but need explicit description for non-visual users.
@@ -135,3 +150,4 @@ Use the `.ilw-sr-only` utility class to provide information that is only accessi
 
 - Ensure content remains usable at 200% zoom and meets WCAG 2.2 requirements for reflow and text spacing.
 - Do not allow fixed-position elements, sticky controls, banners, or other UI components to obscure meaningful content or keyboard focus.
+- Prohibit fixed and sticky controls including Scroll to Top buttons from covering text, controls, validation messages, or keyboard focus indicators. Require responsive repositioning, sufficient content padding, or hiding nonessential floating controls at constrained sizes.
