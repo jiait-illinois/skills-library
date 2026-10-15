@@ -10,10 +10,17 @@ Use this skill to add, update, or review University of Illinois Shibboleth singl
 
 Treat the repository's existing auth approach as the primary anchor. Keep the implementation aligned with the current framework, routing style, and session model instead of introducing a parallel authentication system.
 
+## Support
+
+Applications must be registered by the Identity & Access Management Team to
+enable Shibboleth SSO. Contact shibboleth-mgr@illinois.edu for assistance with
+Shibboleth integration.
+
 ## Defaults
 
 - OIDC issuer / base endpoint: `https://shibboleth.illinois.edu`
 - OIDC discovery document: `https://shibboleth.illinois.edu/.well-known/openid-configuration`
+<!-- TODO: Use OIDC-specific logout endpoint instead of the proprietary one -->
 - Logout endpoint: `https://shibboleth.illinois.edu/idp/profile/Logout`
 - Default scopes: `openid email`
 - Default redirect URI path: `/auth/callback`
