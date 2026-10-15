@@ -1,7 +1,7 @@
 ---
 name: prompts-review
-description: 'Review a JSON or CSV dataset of agent or Copilot prompts and evaluate prompt quality, context quality, scope, validation, model fit, and cost signals. Use when auditing prompt datasets, improving user prompts, scoring prompt engineering quality, or generating rewritten prompts and aggregate findings from structured rows or records.'
-argument-hint: 'Path to a JSON or CSV file in the workspace, or a pasted JSON/CSV snippet to review'
+description: Review a JSON or CSV dataset of agent or Copilot prompts and evaluate prompt quality, context quality, scope, validation, model fit, and cost signals. Use when auditing prompt datasets, improving user prompts, scoring prompt engineering quality, or generating rewritten prompts and aggregate findings from structured rows or records.
+argument-hint: Path to a JSON or CSV file in the workspace, or a pasted JSON/CSV snippet to review
 ---
 
 # Prompt Review
