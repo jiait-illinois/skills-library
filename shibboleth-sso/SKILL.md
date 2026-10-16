@@ -20,10 +20,11 @@ Shibboleth integration.
 
 - OIDC issuer / base endpoint: `https://shibboleth.illinois.edu`
 - OIDC discovery document: `https://shibboleth.illinois.edu/.well-known/openid-configuration`
-<!-- TODO: Use OIDC-specific logout endpoint instead of the proprietary one -->
+<!-- TODO: Use OIDC-specific logout endpoint once newer logout functionality is implemented (https://shibboleth.illinois.edu/idp/profile/oidc/logout) -->
 - Logout endpoint: `https://shibboleth.illinois.edu/idp/profile/Logout`
-- Default scopes: `openid email`
+- Default scopes: `openid profile email`
 - Default redirect URI path: `/auth/callback`
+<!-- TODO: Verify this works with Shib server config update -->
 - Default client ID pattern, unless the user specifies otherwise: `myservice.myunit.illinois.edu`
 
 ## Library Selection
@@ -38,30 +39,40 @@ When the best choice is not obvious, inspect the dependency manifests, lockfiles
 
 ## Required Claims
 
-If the user has not explicitly requested required claims, request these as essential claims:
-
+Submit required claims only if explicitly requested by the user **AND** they're supported by the selected OIDC library, eg.:
 ```json
 {
-  "userinfo": {
+    "userinfo": {
+		"eduperson_principal_name": {"essential": true},
 		"preferred_username": {"essential": true},
 		"uiucedu_uin": {"essential": true}
-  }
+    }
 }
 ```
 
 ## Session Mapping
 
+<!-- TODO: NetID won't be available on the id_token until Keith updates production config in a couple weeks -->
 Unless the user explicitly says to persist different ID token attributes, map the identity values available in the ID token userinfo claim set onto the client session user object as follows:
+- `preferred_username` -> `netid`
 
-- `eduperson_principal_name` -> `netid`
-- `uiucedu_uin` -> `uin`
+If the user requests to save any of the following attributes on the client session user object, they must be fetched from the userinfo endpoint and mapped accordingly:
+| Client Session Attribute | UserInfo Endpoint Attribute |
+| ------------------------ | --------------------------- |
+| `uin`                    | `uiucedu_uin`               |
+| `name`                   | `name`                      |
+| `first_name`             | `given_name`                |
+| `middle_name`            | `middle_name`               |
+| `last_name`              | `family_name`               |
+| `eduperson_affiliation`  | `eduperson_affiliation`     |
 
-Do not fetch the userinfo endpoint unless the user explicitly asks for it.
+Avoid sending a UserInfo request unless required by the user's specifications.
 
 ## Credential Handling
 
 - Do not hardcode non-empty defaults for the OIDC client ID or client secret.
 - Treat the client secret as sensitive configuration and pass it through secure application configuration, typically environment variables.
+- For mobile apps or cases when the client secret has to be available on the client's device, use the OIDC PKCE extension instead of a static client secret.
 - If a sample secret is needed for local setup, use a random string of at least 32 characters, but never bake it into committed runtime defaults.
 
 ## Procedure
@@ -106,17 +117,16 @@ The implementation is complete when:
 
 - The selected OAuth / OIDC library matches the workspace, user preference, or framework fit in that order.
 - Discovery uses `https://shibboleth.illinois.edu/.well-known/openid-configuration`.
-- The login flow defaults to `openid email` scopes.
+- The login flow defaults to `openid profile email` scopes.
 - The client ID and client secret are not hardcoded as non-empty defaults.
-- Required claims include `preferred_username` and `uiucedu_uin` unless the user overrides them.
+- Required claims are omitted unless requested by the user and they're supported by the OIDC library.
 - The callback route defaults to `/auth/callback` unless overridden.
-- The app does not call the userinfo endpoint unless explicitly requested.
-- Session user info maps `eduperson_principal_name` to `netid` and `uiucedu_uin` to `uin` unless told otherwise.
+- The app does not call the UserInfo Endpoint unless required by the user's client side session user object specifications.
 
 ## Example Invocations
 
 ```text
-Add Shibboleth SSO to this app using the installed OIDC library if one exists. Default to openid email scopes, request preferred_username and uiucedu_uin, use /auth/callback, and keep client credentials in environment variables.
+Add Shibboleth SSO to this app using the installed OIDC library if one exists. Default to openid profile email scopes, request preferred_username and uiucedu_uin, use /auth/callback, and keep client credentials in environment variables.
 ```
 
 ```text
