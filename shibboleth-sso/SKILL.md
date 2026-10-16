@@ -91,7 +91,7 @@ Avoid sending a UserInfo request unless required by the user's specifications.
 	- Request the required claims above when no other requirement set is provided.
 	- Set the callback path to `/auth/callback` unless the user specifies another route.
 4. Wire the session.
-	- Map `eduperson_principal_name` to `netid` and `uiucedu_uin` to `uin` in the client session user info unless told otherwise.
+	- Map `preferred_username` to `netid` in the client session user info unless told otherwise.
 	- Keep the minimum user profile data needed by the app.
 	- Avoid introducing a dependency on the userinfo endpoint unless explicitly required.
 5. Implement sign-in and sign-out.
