@@ -36,3 +36,11 @@ Prompting guidelines are based on the following resources:
 - [Best practices for using GitHub Copilot - GitHub Docs](https://docs.github.com/en/copilot/get-started/best-practices)
 - [Best practices for using AI in VS Code](https://code.visualstudio.com/docs/agents/best-practices)
 - [Fundamentals | Agentic Coding Handbook](https://tweag.github.io/agentic-coding-handbook/PROMPT_ENGINEERING/)
+
+## [shibboleth-sso](shibboleth-sso/SKILL.md)
+
+Implement or refactor University of Illinois Shibboleth SSO using the workspace's existing OAuth/OpenID Connect stack when present, otherwise the user-specified library, otherwise the library that best fits the repository's web framework or software architecture.
+
+Applications must be registered by the Identity & Access Management Team to
+enable Shibboleth SSO. Contact shibboleth-mgr@illinois.edu for assistance with
+Shibboleth integration.
