@@ -134,22 +134,45 @@ This is the reference skeleton for a standard sub-page: both CDNs loaded, header
     <ilw-back-to-top></ilw-back-to-top>
 
     <ilw-footer slot="footer">
-        <a slot="primary-unit" href="https://illinois.edu">University of Illinois</a>
-        <a slot="site-name" href="/">Department of Example</a>
-
-        <div slot="contact">
-            <p>1234 Example Hall, Urbana, IL 61801</p>
-            <p><a href="mailto:example@illinois.edu">example@illinois.edu</a></p>
-        </div>
+        <p slot="primary-unit">
+            <a href="">Unit of Example</a>
+        </p>
+        <p slot="site-name">
+            <a href="/">Department of Example</a>
+        </p>
+        
+        <address slot="address">
+            <p>
+                5678 West Example Street
+                <br>
+                MC-0000
+                <br>
+                Champaign, IL 61820
+            </p>
+            <p>
+                Email:
+                <a href="mailto:address@illinois.edu">address@illinois.edu</a>
+            </p>
+            <p>
+                Phone:
+                <a href="tel:+12175551234" aria-label="Example Site Office">(217) 555-1234</a>
+            </p>
+        </address>
 
         <nav slot="social" aria-label="Social media">
             <ul>
-                <li><a href="https://x.com/illinois1867">X</a></li>
-                <li><a href="https://www.instagram.com/illinois1867">Instagram</a></li>
+                <li>
+                    <a href="">
+                        <ilw-icon alt="Our Bluesky account" icon="bluesky" size="44px"></ilw-icon>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <ilw-icon alt="Our GitHub account" icon="github" size="44px"></ilw-icon>
+                    </a>
+                </li>
             </ul>
         </nav>
-
-        <p>&copy; 2026 The Board of Trustees of the University of Illinois</p>
     </ilw-footer>
 
 </ilw-page>
