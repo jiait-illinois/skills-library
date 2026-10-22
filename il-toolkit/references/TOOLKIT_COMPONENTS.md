@@ -48,7 +48,6 @@ Inside `ul.ilw-buttons`, the child `<a>` and `<button>` elements are styled by t
 | `ilw-theme-blue-solid` / `ilw-theme-orange-solid` | Solid background variants |
 | `ilw-theme-blue-outline` / `ilw-theme-orange-outline` | Outlined variants |
 | `ilw-theme-blue-inverse` / `ilw-theme-orange-inverse` | Inverted colors for dark backgrounds |
-| `ilw-theme-blue-1`, `ilw-theme-blue-2` (and orange equivalents) | Tint variants |
 
 Themes work in **both** placements:
 - On a standalone button, alongside `.ilw-button` on the same element.
@@ -66,6 +65,7 @@ The stylesheet also defines an `.ilw-buttons-left` modifier for the `ul.ilw-butt
 - **`<ilw-statistic>`**: Displays numbers/data in large, accessible formats.
 - **`<ilw-quote>`**: Styled blockquotes for testimonials or impactful statements.
 - **`<ilw-video>`**: Auto-sizing container for accessible video embeds (YouTube, Vimeo, etc.).
+- **`<ilw-content>`**: Apply consistent Illinois styling, spacing, alignment, and color themes to headings, paragraphs, lists, tables, and other page content.
 
 **Attributes:**
 - `aspectratio`: `16/9` (Default), `9/16` (Recommended for YouTube Shorts/vertical video).
@@ -150,6 +150,7 @@ Wrap the video `<iframe>` inside the component. **Note**: The iframe must have a
 > If keyboard navigation does not work in a browser test, that is a component bug: report it to the Web Toolkit owners rather than patching around it with local script.
 
 **Attributes:**
+<!-- TODO: Update according to https://github.com/web-illinois/ilw-tabs/blob/main/builder/versions/ilw-tabs.1.1.json -->
 - `theme`: Color theme (`blue`, `gray`, `white`).
 - `width`: 
     - (default): Constrained to the container.
