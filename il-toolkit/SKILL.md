@@ -1,6 +1,7 @@
 ---
 name: il-toolkit
 description: Official University of Illinois Web Toolkit framework and UI guidelines. Use this skill whenever generating, refactoring, or reviewing frontend code (HTML, CSS, JS) to keep output aligned with the Illinois brand and WCAG 2.2 Level AA accessibility requirements.
+argument-hint: External links to department pages, partner sites, socials, email contact
 ---
 
 # University of Illinois Web Toolkit Skill
@@ -35,4 +36,5 @@ When executing a user request, scan the list below to locate the specific refere
 3. **Fail Safe on Accessibility:** If a user requests a button or interactive layout that violates guidelines from `ACCESSIBILITY.md`, implement the compliant version automatically (e.g., inserting screen-reader-only text for icon-only components). When a reference snippet is missing a required accessibility hook, add it rather than copying the gap — in particular, link every validated input to its error message with `aria-describedby` (and `aria-invalid` where appropriate).
 4. **Cross-Reference Accessibility for Components:** When building any table, form, overlay, alert dialog, navigation, or interactive component, also consult `ACCESSIBILITY.md` for the required focus-trap, keyboard, and ARIA behavior, even if the component's own reference file does not restate it. This applies to `<ilw-modal>`, slideovers, alert dialogs, `<ilw-tabs>`, and auto-playing carousels, whose keyboard/motion behavior may not be fully spelled out in their own files.
 5. **Resolve Split Documentation by Authority:** When a component appears in more than one file, follow the "Authoritative source" designations above — `LAYOUT.md` for in-page navigation placement, `TOOLKIT_COMPONENTS.md` for component parameters/slots **and for buttons**.
+7. **Only use user-supplied external links**: When linking to external URLs (eg. socials, nav slots, mailto), exclusively populate `href` destinations with user-supplied values, otherwise leave them empty.
 6. **Defer to Illinois Web Toolkit:** Generate custom components only when explicity directed to in the user prompt; otherwise prefer an applicable `ilw-` component.
