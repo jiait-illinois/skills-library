@@ -5,15 +5,20 @@ Guidelines for assembling a page using the v3+ Toolkit components.
 ## 1. Page Construction Sequence
 Follow these steps to build a compliant page:
 1. **Framework**: Initialize `head` and `body`.
-2. **Skeleton**: Wrap content in `<ilw-page class="ilw-margin ilw-font">`.
+2. **Skeleton**: Wrap content in `<ilw-page class="ilw-font">`.
 3. **Branding**: Add `<ilw-header slot="header">` and `<ilw-footer slot="footer">`.
-<!-- TODO: Does this exist, is it necessary? -->
+    a. [Header details](https://builder3.toolkit.illinois.edu/component/ilw-header/index.html)
+    b. [Header menu details](https://builder3.toolkit.illinois.edu/component/ilw-header-menu/index.html)
+    b. [Footer details](https://builder3.toolkit.illinois.edu/component/ilw-footer/index.html)
 4. **Title/Hero**: Use `<ilw-hero>`, `<ilw-page-title>`, or `<ilw-content>` with an `h1`.
-<!-- TODO: Does this exist, is it necessary? -->
+    a. A Hero is needed if you want to get the user's attention with a few quick links and a large image. [Hero details](https://builder3.toolkit.illinois.edu/component/ilw-hero/index.html)
+    b. A Page title is needed if you want to get the user's attention with a small image or you have a complex application that is subdivided into several sections and you want to easily distinguish those sections. [Page title details](https://builder3.toolkit.illinois.edu/component/ilw-page-title/index.html)
+    c. A Content block with an `h1` is good for a simple page. [Content details](https://builder3.toolkit.illinois.edu/component/ilw-content/index.html)
 5. **Navigation**: Add `<ilw-breadcrumbs>`, `<ilw-section-nav>`, and `<ilw-back-to-top>`.
-<!-- TODO: Does this exist, is it necessary? -->
-6. **CTA**: Insert `<ilw-call-to-action>`, or apply the `.ilw-button` class to an `<a>` or `<button>` for a standard button. (Note: `.ilw-button` is a class, not an element — there is no `<ilw-button>` tag.)
-7. **Content**: Use `<ilw-content>` and `<ilw-columns>`.
+    a. Breadcrumbs are needed if the website has a navigation structure more than two levels deep. [Breadcrumb details](https://builder3.toolkit.illinois.edu/component/ilw-breadcrumbs/index.html)
+    b. Section Navigation is needed if the website has a navigation structure more than two levels deep and you want to reference child pages within the page. Wrap the `<ilw-section-nav>` element inside an `<ilw-columns mode="sidebar-left" width="page">` element -- this will put the Section Navigation to the left of the rest of the content. [Section Navigation details](https://builder3.toolkit.illinois.edu/component/ilw-section-nav/index.html)
+    c. Back to Top should always be close as possible to the ending `</body>` tag outside the `<ilw-page>`. [Back to top details](https://builder3.toolkit.illinois.edu/component/ilw-back-to-top/index.html)
+6. **Content**: Add the rest of the content. Use the TOOLKIT_COMPONENTS.md for details. 
 
 ## 2. Header & Footer Details
 Standard branding components for the `header` and `footer` slots of `<ilw-page>`.

@@ -1,29 +1,103 @@
-# Toolkit Web Components
+# Illinois Toolkit Components
 
-Reference for semantic UI components provided by the Web Toolkit.
+Use this reference with `SKILL.md` when creating, editing, or reviewing Illinois Toolkit v3 pages. Consult the [official component index](https://builder3.toolkit.illinois.edu/component/index.html) for the full catalog.
 
-> **Accessibility note:** For modal/overlay components, keyboard and focus requirements (focus traps, `Escape` to close) are defined authoritatively in `ACCESSIBILITY.md` §1. Where this file shows ARIA attributes inline, they illustrate structure only — the authoritative behavior lives in `ACCESSIBILITY.md`.
->
-> Two exceptions, because these are web components that own their own behavior: for **`<ilw-tabs>`** author the static markup here and add no key handlers (§2), and for **`<ilw-carousel>`** do not enable auto-play (§2). Those two rules are stated in this file and are not overridden by the general patterns in `ACCESSIBILITY.md` §1, which describe what you must build when *not* using these components.
+## Contents
 
-> **Heading hierarchy note:** Several components below hardcode an `<h3>` (e.g. Carousel slides, Tab panels). Per `ACCESSIBILITY.md` §3, headings must nest sequentially without skipping levels. Authors are responsible for ensuring these components do not create a skip relative to the surrounding page. Do not place an `<h3>`-bearing component directly under an `<h1>` without an intervening `<h2>`.
+1. [Content and forms](#1-content-and-forms)
+2. [Actions and buttons](#2-actions-and-buttons)
+3. [Featured content](#3-featured-content)
+4. [Organization and layout](#4-organization-and-layout)
+5. [Navigation and context](#5-navigation-and-context)
+6. [Icons and icon panels](#6-icons-and-icon-panels)
+7. [Profiles](#7-profiles)
+8. [Review checklist](#8-review-checklist)
 
-> **Coverage note:** Some components in this file have a one-line description only and **no verified slot/attribute spec or snippet**: `<ilw-call-to-action>`, `<ilw-statistic>`, `<ilw-quote>`, `<ilw-card>`, `<ilw-accordion>`/`<ilw-accordion-panel>`, `<ilw-grid>`, and `<ilw-pagination>`. Do not invent markup for these — consult the component's page in the official Toolkit documentation before generating anything beyond the element name.
+## Implementation rules
 
-## 1. Interaction & CTA
-- **`<ilw-call-to-action>`**: Grabs user attention for a primary task (Apply, Join, etc.).
-- **`.ilw-button`**: The v3 button class. Applied directly to an `<a>` or `<button>`. Use for **any standalone button**, including icon-only controls.
-- **`.ilw-buttons`**: Container class for a **group of buttons and/or links**. Applied to a `<ul>`.
+- Target Toolkit v3 and use production documentation unless the user requests beta features. Match examples to the component version already loaded by the project.
+- Read the linked component documentation before introducing attributes, slots, classes, or behavior not covered here. Do not infer a component API from its name or from another component.
+- Use this file for component selection and recurring patterns; use the documentation for complete APIs. If documentation is unavailable, use only known patterns and explain any unresolved implementation details.
+- Load the required component assets and global styles through the project's established Toolkit setup. Avoid adding duplicate imports.
+- Follow `ACCESSIBILITY.md` for accessibility requirements and `LAYOUT.md` for page structure and navigation placement. Those companion files are referenced here, not reproduced.
+- Let Toolkit components manage their built-in interaction. For [`<ilw-tabs>`](https://builder3.toolkit.illinois.edu/component/ilw-tabs/index.html), do not add competing keyboard handlers or a roving-tabindex script. For [`<ilw-carousel>`](https://builder3.toolkit.illinois.edu/component/ilw-carousel/index.html), explicitly start paused.
+- Choose heading levels according to the page hierarchy. The `h3` elements in examples are author-supplied examples, not fixed heading levels imposed by the components. Use `h2`, `h3`, or another appropriate level without skipping levels.
+- For components summarized without a complete example, consult their documentation before generating markup.
 
-> **Note there is no `<ilw-button>` custom element** — `ilw-button` is a class, not a tag.
+## 1. Content and forms
+
+- **[`<ilw-content>`](https://builder3.toolkit.illinois.edu/component/ilw-content/index.html)**: Wrap standard HTML content and apply consistent Illinois styling.
+- **[`ilw-input`](https://builder3.toolkit.illinois.edu/component/ilw-input/index.html) styles**: Apply CSS classes to native form elements inside [`<ilw-content>`](https://builder3.toolkit.illinois.edu/component/ilw-content/index.html) and `<form>`. This is a styling package, not an [`<ilw-input>`](https://builder3.toolkit.illinois.edu/component/ilw-input/index.html) wrapper.
+
+### Instructions
+
+- Wrap related HTML content in a single [`<ilw-content>`](https://builder3.toolkit.illinois.edu/component/ilw-content/index.html) block.
+- Include related headings, paragraphs, links, lists, tables, and native form markup within the block.
+- Preserve semantic HTML, logical heading levels, and accessible form labels.
+- Prefer Toolkit styling over custom CSS that duplicates its appearance.
+- Keep other Toolkit components outside the wrapper unless their documentation explicitly supports nesting them within [`<ilw-content>`](https://builder3.toolkit.illinois.edu/component/ilw-content/index.html).
+- Consult the component documentation before adding optional attributes or specialized modes: https://builder3.toolkit.illinois.edu/component/ilw-content/index.html
+- If documentation is unavailable, follow these core instructions without inventing attributes or supported options.
+- Place all form elements inside both [`<ilw-content>`](https://builder3.toolkit.illinois.edu/component/ilw-content/index.html) and `<form>`.
+- Use native HTML controls with the classes provided by [`ilw-input`](https://builder3.toolkit.illinois.edu/component/ilw-input/index.html); do not invent an [`<ilw-input>`](https://builder3.toolkit.illinois.edu/component/ilw-input/index.html) wrapper.
+- Wrap each label-and-control pair in `<div class="ilw-input-entry">`.
+- Associate each label's `for` attribute with its control's unique `id`.
+- For required controls, add `required` to the control and `class="ilw-label-required"` to its label.
+- Preserve control names, validation, and form submission behavior.
+- Ensure the project's Toolkit setup includes the [`ilw-input`](https://builder3.toolkit.illinois.edu/component/ilw-input/index.html) styles.
+- Consult the input documentation for additional supported patterns: https://builder3.toolkit.illinois.edu/component/ilw-input/index.html
+- If documentation is unavailable, use the patterns below without inventing additional classes, attributes, or options.
+
+### Content inside other components
+
+- Place [`<ilw-content>`](https://builder3.toolkit.illinois.edu/component/ilw-content/index.html) inside other Toolkit components when their content areas contain standard HTML, such as headings, paragraphs, lists, or forms.
+- When nested content needs headings displayed at a uniform size, use [`<ilw-content mode="inset">`](https://builder3.toolkit.illinois.edu/component/ilw-content-inset/index.html).
+- Preserve logical heading levels (`h2`, `h3`, etc.). Use inset mode to normalize their visual size without changing their semantic level.
+- For forms, continue using the documented [`ilw-input`](https://builder3.toolkit.illinois.edu/component/ilw-input/index.html) classes on native form markup inside both [`<ilw-content>`](https://builder3.toolkit.illinois.edu/component/ilw-content/index.html) and `<form>`.
+- For [`<ilw-tabs>`](https://builder3.toolkit.illinois.edu/component/ilw-tabs/index.html), place [`<ilw-content>`](https://builder3.toolkit.illinois.edu/component/ilw-content/index.html) inside each panel, outside the tab-button list. Keep buttons and panels in the structure required by the tabs component.
+- Follow the containing component's documented structure and slots. Keep slotted headings, icons, and controls at the required level rather than moving them into a content wrapper.
+- See the [inset-mode documentation](https://builder3.toolkit.illinois.edu/component/ilw-content-inset/index.html).
+
+### Example
+
+```html
+<ilw-content>
+  <h2>Request information</h2>
+  <p>Enter your email address to learn more.</p>
+
+  <form action="/request-information" method="post">
+    <div class="ilw-input-entry">
+      <label for="email" class="ilw-label-required">Email address</label>
+      <input type="email" id="email" name="email" autocomplete="email" required>
+    </div>
+    <button type="submit" class="ilw-button">
+      Request information
+    </button>
+  </form>
+</ilw-content>
+```
+
+### Review
+
+Before completing a change, confirm that related HTML content, including form elements, is inside [`<ilw-content>`](https://builder3.toolkit.illinois.edu/component/ilw-content/index.html), that form controls have accessible labels, and that custom styles do not unnecessarily duplicate Toolkit styling.
+
+## 2. Actions and buttons
+
+- **[`<ilw-call-to-action>`](https://builder3.toolkit.illinois.edu/component/ilw-call-to-action/index.html)**: Grabs user attention for a primary task (Apply, Join, etc.).
+- **[`.ilw-button`](https://builder3.toolkit.illinois.edu/component/ilw-global-button-anchor/index.html)**: The v3 button class. [Native button details](https://builder3.toolkit.illinois.edu/component/ilw-global-button-button/index.html). Applied directly to an `<a>` or `<button>`. Use for **any standalone button**, including icon-only controls.
+- **[`.ilw-buttons`](https://builder3.toolkit.illinois.edu/component/ilw-global-buttons/index.html)**: Container class for a **group of buttons and/or links**. Applied to a `<ul>`.
+
+> **Note there is no [`<ilw-button>`](https://builder3.toolkit.illinois.edu/component/ilw-global-button-anchor/index.html) custom element** — [`ilw-button`](https://builder3.toolkit.illinois.edu/component/ilw-global-button-anchor/index.html) is a class, not a tag.
 
 ### Button Styling & Structure
 
 **Scope — when to use which:**
-- **Single button, anywhere** (including an icon-only search toggle in a header): put `.ilw-button` directly on the `<a>` or `<button>`. No list wrapper. Pair icon-only controls with an `.ilw-sr-only` label — see `ACCESSIBILITY.md` §7.
-- **Group of buttons or links** (e.g. "Apply" / "Learn More" pairs, carousel CTAs): use the `.ilw-buttons` list structure below, which supplies the flex row layout and spacing.
+
+- **Single button, anywhere** (including an icon-only search toggle in a header): put [`.ilw-button`](https://builder3.toolkit.illinois.edu/component/ilw-global-button-anchor/index.html) directly on the `<a>` or `<button>`. No list wrapper. Pair icon-only controls with an [`.ilw-sr-only`](https://builder3.toolkit.illinois.edu/component/ilw-global-sr-only/index.html) label — see `ACCESSIBILITY.md` §7.
+- **Group of buttons or links** (e.g. "Apply" / "Learn More" pairs, carousel CTAs): use the [`.ilw-buttons`](https://builder3.toolkit.illinois.edu/component/ilw-global-buttons/index.html) list structure below, which supplies the flex row layout and spacing.
 
 **Standalone Structure:**
+
 ```html
 <a class="ilw-button ilw-theme-blue-solid" href="/apply">Apply Now</a>
 
@@ -31,14 +105,15 @@ Reference for semantic UI components provided by the Web Toolkit.
 ```
 
 **Group Structure (buttons/links):**
+
 ```html
-<ul class="ilw-buttons ilw-theme-blue-solid">
-    <li><a href="#">Link 1</a></li>
-    <li><button type="button">Button 1</button></li>
+<ul class="ilw-buttons">
+    <li><a class="ilw-theme-blue-solid" href="/apply">Apply</a></li>
+    <li><button class="ilw-theme-blue-solid" type="button">Open details</button></li>
 </ul>
 ```
 
-Inside `ul.ilw-buttons`, the child `<a>` and `<button>` elements are styled by the container and **do not need their own `.ilw-button` class**.
+Inside `ul.ilw-buttons`, the child `<a>` and `<button>` elements are styled by the container and **do not need their own [`.ilw-button`](https://builder3.toolkit.illinois.edu/component/ilw-global-button-anchor/index.html) class**.
 
 **Themes:**
 
@@ -49,25 +124,29 @@ Inside `ul.ilw-buttons`, the child `<a>` and `<button>` elements are styled by t
 | `ilw-theme-blue-outline` / `ilw-theme-orange-outline` | Outlined variants |
 | `ilw-theme-blue-inverse` / `ilw-theme-orange-inverse` | Inverted colors for dark backgrounds |
 
-Themes work in **both** placements:
-- On a standalone button, alongside `.ilw-button` on the same element.
-- On the `ul.ilw-buttons` container, where it applies to every child. This works because a theme class sets the `--ilw-color--control` and `--ilw-color--control-text` custom properties, which inherit down to the children that consume them. Setting the theme on an individual child inside the list also works and overrides the container.
+Apply theme and size classes directly to individual links or buttons when customizing them. Use one theme and one size per control; consult the linked global-style documentation before relying on inheritance from a group container.
 
-**Sizes:**
-- `ilw-button-large`: Larger padding and font size.
-- `ilw-button-small`: Compact buttons for tight spaces.
+**Sizes:** Use `ilw-button-large` or `ilw-button-small` on the individual control.
 
-Apply to the `ul.ilw-buttons` container, or alongside `.ilw-button` on a standalone button.
+**Alignment:** Use `ul.ilw-buttons` for a centered group or `ul.ilw-buttons-left` for a left-aligned group.
 
-The stylesheet also defines an `.ilw-buttons-left` modifier for the `ul.ilw-buttons` container (an alignment variant; exact behavior unverified — confirm against the live toolkit before use).
+Use an `<a href="…">` for navigation and a native `<button>` for an action. Set `type="button"` for non-submit buttons inside forms.
 
-## 2. Impactful Content
-- **`<ilw-statistic>`**: Displays numbers/data in large, accessible formats.
-- **`<ilw-quote>`**: Styled blockquotes for testimonials or impactful statements.
-- **`<ilw-video>`**: Auto-sizing container for accessible video embeds (YouTube, Vimeo, etc.).
-- **`<ilw-content>`**: Apply consistent Illinois styling, spacing, alignment, and color themes to headings, paragraphs, lists, tables, and other page content.
+## 3. Featured content
+
+- **[`<ilw-statistic>`](https://builder3.toolkit.illinois.edu/component/ilw-statistic/index.html)**: Displays numbers/data in large, accessible formats.
+- **[`<ilw-quote>`](https://builder3.toolkit.illinois.edu/component/ilw-quote/index.html)**: Styled blockquotes for testimonials or impactful statements.
+- **[`<ilw-video>`](https://builder3.toolkit.illinois.edu/component/ilw-video/index.html)**: Auto-sizing container for accessible video embeds (YouTube, Vimeo, etc.).
+- **[`<ilw-content mode="introduction">`](https://builder3.toolkit.illinois.edu/component/ilw-content-introduction/index.html)**: Style an introductory block at the beginning of a story or content section. [Introduction details](https://builder3.toolkit.illinois.edu/component/ilw-content-introduction/index.html)
+- **[`<ilw-content mode="lede">`](https://builder3.toolkit.illinois.edu/component/ilw-content-lede/index.html)**: Emphasize a short opening or summary paragraph. [Lede details](https://builder3.toolkit.illinois.edu/component/ilw-content-lede/index.html)
+- **[`<ilw-carousel>`](https://builder3.toolkit.illinois.edu/component/ilw-carousel/index.html)**: A component for displaying a sequence of slides with images, text, and call-to-action buttons.
+- **[`<ilw-card>`](https://builder3.toolkit.illinois.edu/component/ilw-card/index.html)**: Container for image/icon + title + text (usually used in a [`<ilw-grid>`](https://builder3.toolkit.illinois.edu/component/ilw-grid/index.html)).
+- **[`<ilw-icon-panel>`](https://builder3.toolkit.illinois.edu/component/ilw-icon-panel/index.html)**: A content block featuring an icon, a linked heading, and descriptive text.
+
+### Video details
 
 **Attributes:**
+
 - `aspectratio`: `16/9` (Default), `9/16` (Recommended for YouTube Shorts/vertical video).
 - `width`: CSS value (e.g., `467px`).
 - `height`: CSS value (e.g., `831px`).
@@ -76,6 +155,7 @@ The stylesheet also defines an `.ilw-buttons-left` modifier for the `ul.ilw-butt
 Wrap the video `<iframe>` inside the component. **Note**: The iframe must have a descriptive `title` attribute for accessibility. Replace the placeholder IDs below with your actual video ID.
 
 **Example (Standard):**
+
 ```html
 <ilw-video>
     <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="Introduction Video" allowfullscreen></iframe>
@@ -83,40 +163,44 @@ Wrap the video `<iframe>` inside the component. **Note**: The iframe must have a
 ```
 
 **Example (YouTube Short):**
+
 ```html
 <ilw-video aspectratio="9/16" width="467px">
     <iframe src="https://www.youtube.com/embed/SHORT_VIDEO_ID" title="Campus Summer Short" allowfullscreen></iframe>
 </ilw-video>
 ```
-- **`<ilw-carousel>`**: A component for displaying a sequence of slides with images, text, and call-to-action buttons.
+
+### Carousel details
 
 **Structure:**
-- `<ilw-carousel>`: Root container.
-- `<ilw-slide>`: Individual slide container.
+
+- [`<ilw-carousel>`](https://builder3.toolkit.illinois.edu/component/ilw-carousel/index.html): Root container.
+- [`<ilw-slide>`](https://builder3.toolkit.illinois.edu/component/ilw-carousel/index.html): Individual slide container.
     - `<h3>`: Slide title.
     - `<p>`: Slide description.
     - `<div slot="buttons">`: Wrapper for the CTA button list. Place a `<ul class="ilw-buttons">` inside it.
     - `<img slot="image">`: Background image for the slide.
 
 **Attributes:**
+
 - `controls`: `compact` (smaller navigation arrows).
-- `theme`: `blue`, `gray` (background color for the text area).
-- `playing`: `true`/`false` (enables/disables auto-play). **Leave this off** — see the auto-play rule below.
+- `theme="blue"`: Gives the carousel controls a blue background.
+- `playing`: `true`/`false` (enables/disables auto-play). Set `playing="false"` explicitly.
 - `width`: `full` (expands to viewport width).
 - `overlay`: `true` (places text content over the image).
 
-> **Accessibility — auto-play / motion (rule):** **Do not set `playing="true"`.** Ship carousels paused: omit the attribute or set `playing="false"`, and let the user advance slides with the `controls` arrows. Auto-advance triggers WCAG 2.2 SC 2.2.2, which requires a visible pause/stop control, pause on hover/focus, and `prefers-reduced-motion` handling — see `ACCESSIBILITY.md` §1 ("Auto-moving content"). A paused carousel satisfies 2.2.2 unconditionally, so this is the compliant default and needs no verification.
->
-> Enable auto-play only when a stakeholder explicitly requires it. In that case treat the three requirements above as your responsibility: verify against the live component that each is met, and supply whatever is missing before shipping.
+> **Project motion rule:** Start carousels paused with `playing="false"`; do not rely on an omitted attribute to select the initial state. Enable autoplay only when explicitly requested. If enabled, verify pause/resume controls, focus and hover behavior, and reduced-motion behavior in the loaded version against `ACCESSIBILITY.md` §1. Starting paused does not remove the need to check keyboard navigation, labels, and other accessibility requirements.
 
 **Example:**
+
 ```html
-<ilw-carousel controls="compact" theme="blue">
+<h2>Research highlights</h2>
+<ilw-carousel controls="compact" theme="blue" playing="false" label="Research highlights">
     <ilw-slide>
         <h3>Innovation at Illinois</h3>
         <p>Exploring the frontiers of technology and research.</p>
         <div slot="buttons">
-            <ul class="ilw-buttons ilw-theme-blue-solid">
+            <ul class="ilw-buttons">
                 <li><a href="/research">Learn More</a></li>
             </ul>
         </div>
@@ -124,54 +208,64 @@ Wrap the video `<iframe>` inside the component. **Note**: The iframe must have a
     </ilw-slide>
 </ilw-carousel>
 ```
-- **`<ilw-card>`**: Container for image/icon + title + text (usually used in a `<ilw-grid>`).
-- **`<ilw-tabs>`**: A component for organizing related content into switchable panels.
+
+## 4. Organization and layout
+
+- **[`<ilw-accordion>`](https://builder3.toolkit.illinois.edu/component/ilw-accordion/index.html)**: Wrapper for multiple [`<ilw-accordion-panel>`](https://builder3.toolkit.illinois.edu/component/ilw-accordion/index.html) elements.
+- **[`<ilw-accordion-panel>`](https://builder3.toolkit.illinois.edu/component/ilw-accordion/index.html)**: A collapsible section inside [`<ilw-accordion>`](https://builder3.toolkit.illinois.edu/component/ilw-accordion/index.html). Put a heading in `slot="summary"`; choose its level for the surrounding hierarchy and use the same level across peer panels.
+- **[`<ilw-columns>`](https://builder3.toolkit.illinois.edu/component/ilw-columns/index.html)**: Arrange content in responsive columns; consult its documented layout options.
+- **[`<ilw-grid>`](https://builder3.toolkit.illinois.edu/component/ilw-grid/index.html)**: Manages alignment for responsive sets of cards or stats.
+- **[`<ilw-tabs>`](https://builder3.toolkit.illinois.edu/component/ilw-tabs/index.html)**: A component for organizing related content into switchable panels.
+- **[`<ilw-pagination>`](https://builder3.toolkit.illinois.edu/component/ilw-pagination/index.html)**: Accessible page navigation for lists.
+
+### Tabs details
+
+Use the linked documentation for the current version. The example below includes explicit initial ARIA states; the component manages subsequent selection and keyboard behavior.
 
 **Usage Guidelines:**
+
 - **Do use**: To display groups of related information in a compact area.
 - **Do not use**: When a user needs to read the entire page content sequentially, or for a multi-step process. In those cases, use separate pages or standard headings.
 
 **Layouts:**
+
 - **Vertical (Default)**: Recommended for most use cases, especially with more than 3-4 tabs.
 - **Horizontal**: Triggered by `horizontal="true"`. Use only for 2-3 tabs to avoid truncation.
 - **Mobile Behavior**: On mobile devices, all layouts collapse into an **accordion-like view**.
 
 **Structure & Accessibility:**
-- `<ilw-tabs>`: Root container. Label it with `aria-labelledby` pointing to a section header.
+
+- [`<ilw-tabs>`](https://builder3.toolkit.illinois.edu/component/ilw-tabs/index.html): Root container. Label it with `aria-labelledby` pointing to a section header.
 - `<div slot="tabs" role="tablist">`: Contains the trigger buttons.
     - `<button role="tab" id="tab1" aria-controls="panel1">`: Individual triggers. The active tab carries `aria-selected="true"`; inactive tabs carry `aria-selected="false"`.
 - Content Panels: `div` elements with `role="tabpanel"` and `aria-labelledby` pointing to the controlling button's ID.
-    - **Tip**: Use `<ilw-content mode="inset">` inside panels for proper formatting.
+    - **Tip**: Use [`<ilw-content mode="inset">`](https://builder3.toolkit.illinois.edu/component/ilw-content-inset/index.html) inside panels for proper formatting.
 
-> **Accessibility — keyboard navigation (rule):** `<ilw-tabs>` owns the tablist keyboard behavior at runtime. **Author the static markup exactly as shown in the example below — `role`, `aria-controls`, `aria-labelledby`, and the initial `aria-selected` / `tabindex` state — and do not attach your own `keydown` handlers or roving-`tabindex` script inside the component.** Adding custom key handling double-manages state the component already drives and will break tab switching.
+> **Accessibility — keyboard navigation (rule):** [`<ilw-tabs>`](https://builder3.toolkit.illinois.edu/component/ilw-tabs/index.html) owns the tablist keyboard behavior at runtime. **Author the static markup exactly as shown in the example below — `role`, `aria-controls`, `aria-labelledby`, and the initial `aria-selected` / `tabindex` state — and do not attach your own `keydown` handlers or roving-`tabindex` script inside the component.** Adding custom key handling double-manages state the component already drives and will break tab switching.
 >
-> The full ARIA tablist pattern in `ACCESSIBILITY.md` §1 ("Tabs (ARIA tablist) keyboard pattern") applies when you build a tablist **without** `<ilw-tabs>` — hand-rolled tabs must implement it in full.
+> The full ARIA tablist pattern in `ACCESSIBILITY.md` §1 ("Tabs (ARIA tablist) keyboard pattern") applies when you build a tablist **without** [`<ilw-tabs>`](https://builder3.toolkit.illinois.edu/component/ilw-tabs/index.html) — hand-rolled tabs must implement it in full.
 >
-> If keyboard navigation does not work in a browser test, that is a component bug: report it to the Web Toolkit owners rather than patching around it with local script.
+> If keyboard navigation fails in a browser test, first check asset loading, markup, and the component version. If the failure persists with documented markup, report it to the Web Toolkit owners; avoid competing local keyboard handlers.
 
 **Attributes:**
-<!-- TODO: Update according to https://github.com/web-illinois/ilw-tabs/blob/main/builder/versions/ilw-tabs.1.1.json -->
+
 - `theme`: Color theme (`blue`, `gray`, `white`).
-- `width`: 
+- `width`:
     - (default): Constrained to the container.
     - `full`: Full width of the viewport.
     - `auto`: Full width background, but text is constrained to the container.
     - `page`: Text is constrained to the standard page width.
 - `horizontal`: Set to `true` for a horizontal layout.
-- `default`: ID of the panel to open on load (defaults to the first item).
-
-**CSS Variables:**
-- `--ilw-tabs--display`: Controls root layout (flex/block).
-- `--ilw-tabs--tablist--display`: Controls button list layout.
-- `--ilw-tabs--tablist--width`: Width of the button list in vertical layout (default `350px`).
+- `default`: ID of the tab to open on load (defaults to the first tab); check the loaded version before configuring this option.
 
 **Example:**
+
 ```html
 <h2 id="tabs-heading">Department Information</h2>
 <ilw-tabs theme="blue" aria-labelledby="tabs-heading">
-    <div slot="tabs" role="tablist">
-        <button role="tab" id="btn1" aria-controls="panel1" aria-selected="true" tabindex="0">Overview</button>
-        <button role="tab" id="btn2" aria-controls="panel2" aria-selected="false" tabindex="-1">Details</button>
+    <div slot="tabs" role="tablist" aria-labelledby="tabs-heading">
+        <button type="button" role="tab" id="btn1" aria-controls="panel1" aria-selected="true" tabindex="0">Overview</button>
+        <button type="button" role="tab" id="btn2" aria-controls="panel2" aria-selected="false" tabindex="-1">Details</button>
     </div>
     <div id="panel1" role="tabpanel" aria-labelledby="btn1">
         <ilw-content mode="inset">
@@ -188,56 +282,63 @@ Wrap the video `<iframe>` inside the component. **Note**: The iframe must have a
 </ilw-tabs>
 ```
 
-## 3. Organizational Elements
-- **`<ilw-accordion>`**: Wrapper for multiple `<ilw-accordion-panel>` elements.
-- **`<ilw-accordion-panel>`**: Single collapsible section. Requires a `h3 slot="summary"`.
-- **`<ilw-grid>`**: Manages alignment for responsive sets of cards or stats.
-- **`<ilw-pagination>`**: Accessible page navigation for lists.
+## 5. Navigation and context
 
-## 4. Metadata & Context
-- **`<ilw-breadcrumbs>`**: Helps users understand site hierarchy. Placement guidance is in `LAYOUT.md` §4 (In-Page Navigation); prefer `LAYOUT.md` for where and how to position breadcrumbs within a page. Use this file only for the component's identity/role.
-- **`<ilw-section-nav>`**: Contextual navigation for the current site branch. Full markup, manual mode, and placement are documented in `LAYOUT.md` §4; prefer `LAYOUT.md`.
+- **[`<ilw-breadcrumbs>`](https://builder3.toolkit.illinois.edu/component/ilw-breadcrumbs/index.html)**: Helps users understand site hierarchy. Placement guidance is in `LAYOUT.md` §4 (In-Page Navigation); prefer `LAYOUT.md` for where and how to position breadcrumbs within a page. Use this file only for the component's identity/role.
+- **[`<ilw-section-nav>`](https://builder3.toolkit.illinois.edu/component/ilw-section-nav/index.html)**: Contextual navigation for the current site branch. Full markup, manual mode, and placement are documented in `LAYOUT.md` §4; prefer `LAYOUT.md`.
 
-## 5. Icons & Media
-- **`<ilw-icon>`**: Wrapper for University of Illinois brand icons.
+## 6. Icons and icon panels
+
+### Icons
+
+- **[`<ilw-icon>`](https://builder3.toolkit.illinois.edu/component/ilw-icon/index.html)**: Wrapper for University of Illinois brand icons.
 
 **Attributes:**
-- `icon`: Name of the icon (see list below).
-- `alt`: Alternative text. If omitted, the icon is hidden from screen readers (`aria-hidden="true"`). When an icon is the only content of an interactive control, omit `alt` and supply an `.ilw-sr-only` label on the control instead (see `ACCESSIBILITY.md` §7).
+
+- `icon`: A supported name from the linked brand icon catalog.
+- `alt`: Alternative text. If omitted, the icon is hidden from screen readers (`aria-hidden="true"`). When an icon is the only content of an interactive control, omit `alt` and supply an [`.ilw-sr-only`](https://builder3.toolkit.illinois.edu/component/ilw-global-sr-only/index.html) label on the control instead (see `ACCESSIBILITY.md` §7).
 - `size`: CSS value and unit (e.g., `24px`, `2rem`).
 
 **Example:**
+
 ```html
 <ilw-icon icon="calendar" size="1.5rem" alt="Event Date"></ilw-icon>
 ```
 
-- **`<ilw-icon-panel>`**: A content block featuring an icon, a linked heading, and descriptive text.
+
+### Icon panels
+
+Use [`<ilw-icon-panel>`](https://builder3.toolkit.illinois.edu/component/ilw-icon-panel/index.html) to combine an icon with a linked heading or short message.
 
 **Slots:**
-- `icon`: The icon to display (usually an `<ilw-icon>` or `<svg>`).
+
+- `icon`: The icon to display (usually an [`<ilw-icon>`](https://builder3.toolkit.illinois.edu/component/ilw-icon/index.html) or `<svg>`).
 - `link`: An `<a>` tag for the panel's heading.
 - Default slot: Descriptive text/paragraph.
 
 **Attributes:**
-- `theme`: Background color (`white`, `gray`).
+
+- `theme`: Use a background. Consult the documentation before selecting another theme.
 - `accent`: Icon/heading accent color (`blue`, `orange`).
 
 **Example:**
+
 ```html
-<ilw-icon-panel theme="gray" accent="orange">
+<ilw-icon-panel theme="white" accent="orange">
     <ilw-icon slot="icon" icon="handbook"></ilw-icon>
     <a href="/handbook" slot="link">Student Handbook</a>
     <p>Policies and requirements for all graduate students.</p>
 </ilw-icon-panel>
 ```
 
-**Available Icon Names:**
-*admissions, alumni, apply-now, audio, back, bill, bluesky, calendar, call, cancel, check, comment, directory, document, donor, download, email, employment, event, exit, facebook, faculty, family, faq, favorite, flickr, gift, give, google-plus, handbook, home, hours, hr, image, inclusive, info, instagram, intranet, job, less, link, linkedin, location, manual, menu, more, news, next, notification, parent, partners, pause, pay, pdf, phone, pinterest, plan, play, program-of-study, reddit, research, resources, safety, search, send, settings, shop, sitemap, snapchat, spotify, staff, students, submit, team, threads, tickets, tiktok, training, trash, twitter, unit, user, video, volume, website, weibo, whatsapp, workshop, x, yelp, youtube.*
+**Icon names:** Choose a supported name from the [Illinois brand icon catalog](https://cdn.brand.illinois.edu/icons.html), then confirm it is available in the loaded component version. Avoid maintaining a copied list that can become outdated. The icon component must not contain child elements or text.
 
-## 6. Profiles
-- **`<ilw-profile>`**: A comprehensive layout for faculty, staff, or student profiles.
+## 7. Profiles
+
+- **[`<ilw-profile>`](https://builder3.toolkit.illinois.edu/component/ilw-profile/index.html)**: A comprehensive layout for faculty, staff, or student profiles.
 
 **Slots:**
+
 - `name`: Person's name (usually an `h1`).
 - `title`: Job title and department (usually a `<p>`).
 - `image`: Profile photo (`<img slot="image">`).
@@ -247,14 +348,16 @@ Wrap the video `<iframe>` inside the component. **Note**: The iframe must have a
 - Default slot: Main body content (Biography, Appointments, etc.).
 
 **Attributes:**
+
 - `theme`: `gray`.
 - `width`: `full`, `auto`, `page`.
 - `circle`: `true` (clips profile image to a circle).
 - `right`: `true` (swaps the layout to right-aligned image).
 
-> **Note:** The example below is reconstructed from the documented slot list and has not been verified against the live component. Confirm slot names and markup before relying on it.
+> **Version check:** These slot names are documented in the Builder. Match optional attributes to the loaded version and check the rendered layout in a browser.
 
 **Example:**
+
 ```html
 <ilw-profile theme="gray" circle="true">
     <img slot="image" src="jdoe.jpg" alt="Dr. Jane Doe">
@@ -274,18 +377,21 @@ Wrap the video `<iframe>` inside the component. **Note**: The iframe must have a
             <a href="mailto:jdoe@illinois.edu">jdoe@illinois.edu</a>
         </div>
     </div>
-    <div slot="left">
+    <ilw-content slot="left" mode="inset">
         <h2>Office Hours</h2>
         <p>Tuesdays &amp; Thursdays, 2–4 PM.</p>
-    </div>
-    <h2>Biography</h2>
-    <p>Dr. Doe's research focuses on distributed systems and accessibility.</p>
+    </ilw-content>
+    <ilw-content>
+        <h2>Biography</h2>
+        <p>Dr. Doe's research focuses on distributed systems and accessibility.</p>
+    </ilw-content>
 </ilw-profile>
 ```
 
-- **`<ilw-profile-card>`**: A compact card variant for displaying profile information in grids.
+- **[`<ilw-profile-card>`](https://builder3.toolkit.illinois.edu/component/ilw-profile-card/index.html)**: A compact card variant for displaying profile information in grids.
 
 **Slots:**
+
 - `image`: Profile photo (`<img slot="image">`).
 - `name`: Person's name (usually an `h2`).
 - `title`: Job title or description (usually a `<p>`).
@@ -298,13 +404,15 @@ Wrap the video `<iframe>` inside the component. **Note**: The iframe must have a
 - `hr`: Reporting information or manager link.
 
 **Attributes:**
+
 - `theme`: `gray`.
-- `round`: `true` (rounded corners for the card).
+- `round`: Clips the profile image into a round shape.
 - `aspectratio`: `1/1`, `2/1`, `16/10`, `10/16` (sets the image container ratio).
 
-> **Note:** The example below is reconstructed from the documented slot list and has not been verified against the live component. Confirm slot names and markup before relying on it.
+> **Version check:** These slot names are documented in the Builder. Match optional attributes to the loaded version and check the rendered layout in a browser.
 
 **Example:**
+
 ```html
 <ilw-profile-card theme="gray" round="true" aspectratio="1/1">
     <img slot="image" src="jdoe.jpg" alt="Dr. Jane Doe">
@@ -318,26 +426,39 @@ Wrap the video `<iframe>` inside the component. **Note**: The iframe must have a
 </ilw-profile-card>
 ```
 
-- **`<ilw-profile-list>`**: A compact list-item variant for high-density profile directories.
+- **[`<ilw-profile-list>`](https://builder3.toolkit.illinois.edu/component/ilw-profile-list/index.html)**: A compact list-item variant for high-density profile directories.
 
 **Slots:**
+
 - `image`: Profile photo (`<img slot="image">`).
 - `name`: Person's name link (`<a slot="name">`).
-- `subtitle`: Department or job title.
+- `title`: Department or job title. Do not substitute an undocumented `subtitle` slot.
 - Default slot: Contact links (email, phone).
 
 **Attributes:**
-- `circle`: `circle` (clips profile image to a circle).
+
+- `circle`: Clips the profile image into a circle; use a roughly square source image.
 
 **Example:**
+
 ```html
-<ilw-profile-list circle="circle">
+<ilw-profile-list circle>
     <img slot="image" src="avatar.jpg" alt="Jane Smith">
     <a href="/profile/jane" slot="name">Smith, Jane</a>
-    <div slot="subtitle">Department of Redundancy</div>
+    <div slot="title">Department of Redundancy</div>
     <div>
-        <a href="mailto:jsmith@illinois.edu">jsmith@illinois.edu</a> | 
+        <a href="mailto:jsmith@illinois.edu">jsmith@illinois.edu</a> |
         <a href="tel:2175551234">(217) 555-1234</a>
     </div>
 </ilw-profile-list>
 ```
+
+## 8. Review checklist
+
+- Confirm every chosen component and optional setting against its linked documentation and the loaded production version.
+- Wrap standard content in [`<ilw-content>`](https://builder3.toolkit.illinois.edu/component/ilw-content/index.html); use `mode="inset"` inside other components when headings need a uniform visual size.
+- Keep native form controls inside both [`<ilw-content>`](https://builder3.toolkit.illinois.edu/component/ilw-content/index.html) and `<form>`, use documented input classes, and associate labels with unique control IDs.
+- Preserve the containing component's required slots and direct-child structure.
+- Choose semantic heading levels and descriptive links; label icon-only controls and embedded video frames.
+- Start carousels paused and let tabs manage their own keyboard interaction. Check runtime behavior in a browser.
+- Follow `ACCESSIBILITY.md` and `LAYOUT.md` for their respective requirements.

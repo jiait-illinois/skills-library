@@ -25,8 +25,13 @@ The Toolkit URL pinning above is deliberate to reflect development — but be aw
 
 - `3/` is a **floating major**. It picks up minor and patch releases automatically, so a page that works today can change behavior without a code change.
 
-<!-- TODO: Provide example -->
-For production deployments, prefer pinning an exact version over the floating `3/` so releases are reproducible.
+For production deployments, prefer pinning a minor version over the floating `3/` so releases are reproducible. The latest version will always be posted on the https://builder3.toolkit.illinois.edu/ site with the text "Latest version is x.xx"
+
+Example: 
+```html
+<link rel="stylesheet" href="//cdn.toolkit.illinois.edu/3.14/toolkit.css">
+<script type="module" src="//cdn.toolkit.illinois.edu/3.14/toolkit.js"></script>
+```
 
 ## 2. Naming Conventions
 - **`ilw-` prefix**: Standardized Layout/Page components and Web Toolkit components.
@@ -36,7 +41,7 @@ The mandatory skeleton for a compliant page uses the `<ilw-page>` component. Thi
 
 ```html
 <body style="margin: 0;">
-  <ilw-page class="ilw-margin ilw-font">
+  <ilw-page class="ilw-font">
     <ilw-header slot="header">
         <!-- Header Content -->
     </ilw-header>
