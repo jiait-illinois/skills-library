@@ -51,3 +51,23 @@ Only the latest version of this product is supported by JIAIT at the University 
 
 <!-- 6 months from the last update -->
 As of the last update to this README, the expected End-of-Life and End-of-Support dates of this product are April 2027.
+
+<!-- TODO: Confirm with JIAIT -->
+<!-- TODO: GitHub Projects guidance -->
+# Contributing
+
+Thanks for your interest in contributing to this project!
+
+<!-- TODO: bug reports scope (errors in the skill, recurring hullicinations?) -->
+We welcome bug reports, feature requests, documentation improvements, and code contributions from the community.
+
+Skills should be created and evaluated according to best practices described in the [Agent Skills specification](https://agentskills.io/skill-creation/best-practices).
+
+## Getting Started
+
+1. Fork the repository.
+2. Create a feature branch:
+
+   ```bash
+   git checkout -b feature/my-new-feature
+   ```
