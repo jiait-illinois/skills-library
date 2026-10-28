@@ -132,7 +132,7 @@ Require error messages to have a visible text label and distinguishable visual t
 - A status update should generally not steal keyboard focus from the user's current location
 - Make messages meaningful- Don't announce generic messages such as: "Success"
 - Don't rely on color alone - Dont just show green color for success, instead show text for e.g- success : Record was saved
-- Define implementation requirements for dynamic messages: use `role="status"` or a polite live region for routine confirmations; use `role="alert"` or an assertive live region only for urgent errors. The live-region container should exist before its content changes. Messages must be specific and must not move focus unless focus movement is necessary.
+- Define implementation requirements for dynamic messages: use `role="status"` or a polite live region for routine confirmations; use `role="alert"` or an assertive live region only for urgent errors. The live-region container must exist before its content changes. Messages must be specific and must not move focus unless focus movement is necessary.
 - Require success messages to have a visible text label and distinguishable visual treatment, such as an icon, heading, border, or sufficient contrast. Color alone must not communicate message type.
 
 ## 10. Screen Reader Only Content
