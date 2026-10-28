@@ -19,6 +19,7 @@ Developers are responsible for reviewing, verifying, securing, and adequately te
 By using these skills, or any modified form of them, you assume full responsibility for the generated code and acknowledge that the maintainer(s) of this repository are not liable for any software defects, failures, losses, or other issues present in code generated with these skills.
 
 # Skills
+<!-- TODO: Deprecate in favor of https://github.com/microsoft/playwright-cli/blob/b1a5903c5b633b8c9f843ad7b629c2a78437040c/skills/playwright-cli/SKILL.md -->
 ## [browser-tests](browser-tests/SKILL.md)
 Generate or update automated browser test suites from end-user acceptance tests or user stories. Reuse the repository's existing test runner and browser automation framework when present; otherwise use the user-specified framework or default to Playwright.
 
@@ -44,3 +45,9 @@ Implement or refactor University of Illinois Shibboleth SSO using the workspace'
 Applications must be registered by the Identity & Access Management Team to
 enable Shibboleth SSO. Contact shibboleth-mgr@illinois.edu for assistance with
 Shibboleth integration.
+
+# Product Support
+Only the latest version of this product is supported by JIAIT at the University of Illinois Urbana-Champaign on a best-effort basis.
+
+<!-- 6 months from the last update -->
+As of the last update to this README, the expected End-of-Life and End-of-Support dates of this product are April 2027.
