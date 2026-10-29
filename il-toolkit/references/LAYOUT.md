@@ -9,7 +9,7 @@ Follow these steps to build a compliant page:
 3. **Branding**: Add `<ilw-header slot="header">` and `<ilw-footer slot="footer">`.
     a. [Header details](https://builder3.toolkit.illinois.edu/component/ilw-header/index.html)
     b. [Header menu details](https://builder3.toolkit.illinois.edu/component/ilw-header-menu/index.html)
-    b. [Footer details](https://builder3.toolkit.illinois.edu/component/ilw-footer/index.html)
+    c. [Footer details](https://builder3.toolkit.illinois.edu/component/ilw-footer/index.html)
 4. **Title/Hero**: Use `<ilw-hero>`, `<ilw-page-title>`, or `<ilw-content>` with an `h1`.
     a. A Hero is needed if you want to get the user's attention with a few quick links and a large image. [Hero details](https://builder3.toolkit.illinois.edu/component/ilw-hero/index.html)
     b. A Page title is needed if you want to get the user's attention with a small image or you have a complex application that is subdivided into several sections and you want to easily distinguish those sections. [Page title details](https://builder3.toolkit.illinois.edu/component/ilw-page-title/index.html)
@@ -18,7 +18,7 @@ Follow these steps to build a compliant page:
     a. Breadcrumbs are needed if the website has a navigation structure more than two levels deep. [Breadcrumb details](https://builder3.toolkit.illinois.edu/component/ilw-breadcrumbs/index.html)
     b. Section Navigation is needed if the website has a navigation structure more than two levels deep and you want to reference child pages within the page. Wrap the `<ilw-section-nav>` element inside an `<ilw-columns mode="sidebar-left" width="page">` element -- this will put the Section Navigation to the left of the rest of the content. [Section Navigation details](https://builder3.toolkit.illinois.edu/component/ilw-section-nav/index.html)
     c. Back to Top should always be close as possible to the ending `</body>` tag outside the `<ilw-page>`. [Back to top details](https://builder3.toolkit.illinois.edu/component/ilw-back-to-top/index.html)
-6. **Content**: Add the rest of the content. Use the TOOLKIT_COMPONENTS.md for details. 
+6. **Content**: Add the rest of the content. Use the `TOOLKIT_COMPONENTS.md` for details. 
 
 ## 2. Header & Footer Details
 Standard branding components for the `header` and `footer` slots of `<ilw-page>`.
