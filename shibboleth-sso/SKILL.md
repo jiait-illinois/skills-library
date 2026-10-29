@@ -52,7 +52,7 @@ Submit required claims only if explicitly requested by the user **AND** they're 
 
 ## Session Mapping
 
-<!-- TODO: NetID won't be available on the id_token until Keith updates production config in a couple weeks -->
+<!-- TODO: NetID won't be available on the id_token in prod until Nov. 4 -->
 Unless the user explicitly says to persist different ID token attributes, map the identity values available in the ID token userinfo claim set onto the client session user object as follows:
 - `preferred_username` -> `netid`
 
@@ -60,7 +60,6 @@ If the user requests to save any of the following attributes on the client sessi
 | Client Session Attribute | UserInfo Endpoint Attribute |
 | ------------------------ | --------------------------- |
 | `uin`                    | `uiucedu_uin`               |
-| `netid`                  | `preferred_username`        |
 | `email`                  | `eduperson_principal_name`  |
 | `name`                   | `name`                      |
 | `first_name`             | `given_name`                |
