@@ -5,7 +5,7 @@ Components that appear on top of page content.
 > **Accessibility note (required):** All modal overlays in this file (slideovers, `<ilw-modal>`, and the alert dialog documented in `FEEDBACK.md`) MUST trap focus while open and close on `Escape`. These behaviors are defined authoritatively in `ACCESSIBILITY.md` §1 — consult it before generating any overlay. The `open*()` helpers initialize focus traps automatically; when authoring overlay markup manually, implement the focus trap and `Escape` handler yourself. The close-button markup shown in the examples below is not sufficient on its own.
 
 ## 1. Tooltips
-The `[<ilw-tooltip>](https://builder3.toolkit.illinois.edu/component/ilw-tooltip/index.html)` component is a popup that provides additional information about a user interface element when it is hovered over or focused.
+The [`<ilw-tooltip>`](https://builder3.toolkit.illinois.edu/component/ilw-tooltip/index.html) component is a popup that provides additional information about a user interface element when it is hovered over or focused.
 
 **Attributes:**
 - `theme`: Color theme used. Supported value: `blue` (defaults to standard style if omitted).
