@@ -38,8 +38,7 @@ Use HTML5 landmark elements to provide a map for screen reader users:
 - `<footer>`: Site-wide copyright, contact, and legal links.
 - `<section>`: Use only when a thematic grouping of content has a heading.
 
-Require **all visible page content** to be contained in an appropriate landmark. There must be exactly one primary `<main>` region, and page titles, alerts, forms, and dynamically rendered content must not be inserted outside the landmark structure.
-Complementary landmark such as a sidebar containing related information including `<aside>` elements should generally sit outside other landmarks, rather than being nested inside `<main>`, `<nav>`, or another landmark.
+Require **all page content** to be contained in an appropriate landmark. There must be exactly one primary `<main>` region, and page titles, alerts, forms, and dynamically rendered content must not be inserted outside the landmark structure.
 
 ## 3. Heading Hierarchy
 Headings must be nested sequentially without skipping levels:
