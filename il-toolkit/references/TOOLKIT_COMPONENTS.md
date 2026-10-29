@@ -2,17 +2,6 @@
 
 Use this reference with `SKILL.md` when creating, editing, or reviewing Illinois Toolkit v3 pages. Consult the [official component index](https://builder3.toolkit.illinois.edu/component/index.html) for the full catalog.
 
-## Contents
-
-1. [Content and forms](#1-content-and-forms)
-2. [Actions and buttons](#2-actions-and-buttons)
-3. [Featured content](#3-featured-content)
-4. [Organization and layout](#4-organization-and-layout)
-5. [Navigation and context](#5-navigation-and-context)
-6. [Icons and icon panels](#6-icons-and-icon-panels)
-7. [Profiles](#7-profiles)
-8. [Review checklist](#8-review-checklist)
-
 ## Implementation rules
 
 - Target Toolkit v3 and use production documentation unless the user requests beta features. Match examples to the component version already loaded by the project.
