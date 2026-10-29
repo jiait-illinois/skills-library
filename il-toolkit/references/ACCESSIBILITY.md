@@ -8,7 +8,10 @@ The application aims for **WCAG 2.2 AA** compliance to ensure inclusivity for al
     - `Escape`: Must close any open overlay or menu.
     - `Tab`: Must navigate through interactive elements in a logical order.
     - `Arrow Keys`: Mandatory for `Treeview` and `Dropdown` menu navigation, and for moving between tabs in a `<ilw-tabs>` tablist (see Tabs pattern below).
-- **Focus Indicators**: Never disable the default browser focus ring unless replacing it with a more visible, brand-compliant alternative (e.g., `outline-il-orange`).
+      - Arrow keys are used to navigate between items in a radio button group. You may want to differentiate by requiring native interactive HTML controls to use standard navigation unless utilized inside a custom ARIA application widget.
+- **Focus Indicators**:
+  - Never disable the default browser focus ring unless replacing it with a more visible, brand-compliant alternative (e.g., `outline-il-orange`).
+  - Focus indicators must also have a minimum contrast ratio of 3:1 against the background.
 - **Tab Index**: Do not use positive `tabindex` values — they alter the natural tab order.
 - **Tabs (ARIA tablist) keyboard pattern**: Any tablist must support the standard interaction below. **`<ilw-tabs>` implements this itself** — author its markup per `TOOLKIT_COMPONENTS.md` §2 and do not add your own key handlers. Implement the pattern by hand only for a tablist built **without** `<ilw-tabs>`:
     - `Left`/`Right` (horizontal) or `Up`/`Down` (vertical) Arrow keys move focus between tab triggers.
@@ -19,7 +22,14 @@ The application aims for **WCAG 2.2 AA** compliance to ensure inclusivity for al
 - **Target Size**: interactive targets must be at least 24 × 24 CSS pixels or meet a WCAG 2.2 exception, such as sufficient spacing around a smaller target. Apply this to icon buttons, table actions, search buttons, close buttons, pagination, and similar controls.
 
 ## 2. Semantic Structure & Landmarks
-- **Skip link**: Provide a "Skip to main content" link as the first focusable element on the page, targeting an `id` on the `<main>` element. It may be visually hidden until focused, but it MUST become visible on `:focus` — `.ilw-sr-only` alone is not sufficient for this, since it hides content unconditionally (whether the toolkit reveals it on focus is unverified). Check whether `<ilw-page>`/`<ilw-header>` already renders a skip link before adding a duplicate.
+**Skip link**:
+1. Check for the presence of the `cdn.disability.illinois.edu/skipto.min.js` script. If it's missing, add the following elements to the `head` of base template:
+```html
+<script type="module" src="//cdn.toolkit.illinois.edu/3/toolkit.js"></script>
+<script src="//cdn.disability.illinois.edu/skipto.min.js"></script>
+<script>var SkipToConfig = { 'settings': { 'skipTo': { colorTheme: 'illinois' } } };</script>
+```
+2. If the `skipto.min.js` script is explicitly excluded by the user's specification, provide a "Skip to main content" link as the first focusable element on the page, targeting an `id` on the `<main>` element. It may be visually hidden until focused, but it MUST become visible on `:focus` — `.ilw-sr-only` alone is not sufficient for this, since it hides content unconditionally (whether the toolkit reveals it on focus is unverified). Check whether `<ilw-page>`/`<ilw-header>` already renders a skip link before adding a duplicate.
 
 Use HTML5 landmark elements to provide a map for screen reader users:
 - `<header>`: Site-wide branding and utility links.
@@ -29,6 +39,7 @@ Use HTML5 landmark elements to provide a map for screen reader users:
 - `<section>`: Use only when a thematic grouping of content has a heading.
 
 Require **all visible page content** to be contained in an appropriate landmark. There must be exactly one primary `<main>` region, and page titles, alerts, forms, and dynamically rendered content must not be inserted outside the landmark structure.
+Complementary landmark such as a sidebar containing related information including `<aside>` elements should generally sit outside other landmarks, rather than being nested inside `<main>`, `<nav>`, or another landmark.
 
 ## 3. Heading Hierarchy
 Headings must be nested sequentially without skipping levels:
@@ -36,17 +47,12 @@ Headings must be nested sequentially without skipping levels:
 - `h2`: Major sections.
 - `h3` through `h6`: Sub-sections within the hierarchy.
 - **Note**: Never use heading tags for visual styling only; use CSS classes instead.
+- Use concise, descriptive headings. Give sibling sections distinct heading text when needed to clearly distinguish their topics or purposes.
 
 ## 4. ARIA Attributes
 - Build the UI using semantic HTML5 elements and native HTML functionality whenever possible. Avoid ARIA unless it is genuinely necessary.
 - Use the WAI-ARIA 1.2 specification as the authoritative reference when ARIA is required. Use only valid WAI-ARIA 1.2 roles, states, and properties.
-
-Always use the following attributes as defined in the component documentation:
-- `role`: Define the element type (`dialog`, `tablist`, `menuitem`, etc.).
-- `aria-expanded`: Toggle `true`/`false` for collapsible elements.
-- `aria-controls`: Link a trigger to the ID of the element it affects.
-- `aria-labelledby`: Point to a heading or label that describes the element.
-- `aria-current="page"`: Identify the active link in a navigation list.
+- Use appropriate ARIA roles, states, and properties according to the component’s semantics, behavior, and documentation. Ensure they accurately communicate the component’s purpose, accessible name, current state, and relationships to assistive technologies, and update them as users interact with the component.
 
 The accessible name of an interactive control must contain its visible label, in the same order. Do not use aria-label to replace visible text with different wording. Prefer deriving the accessible name directly from visible content.
 
@@ -62,11 +68,12 @@ The accessible name of an interactive control must contain its visible label, in
 
 ## 6. Forms
 - Make all form controls accessible — every `<input>`, `<select>`, `<textarea>`, and custom control must have a programmatically determinable accessible name.
+- Accessible names for controls must be unique. Duplicate field labels are acceptable if they are in different fieldsets with unique legends.
 - **Labels**: Prefer visible `<label>` elements and associate them with controls using native HTML mechanisms (e.g., `<label for="id">`).
 - Ensure required fields, errors, instructions, and validation messages are programmatically associated with their relevant controls.
 - **Validation**: Error messages must be linked to inputs using `aria-describedby`.
   - For dynamically validated forms, avoid using `aria-live` for every small validation change — this can become disruptive for screen-reader users.
-- **Grouping**: Use `<fieldset>` and `<legend>` for groups of related controls (radio buttons, checkboxes).
+- **Grouping**: Use `<fieldset>` and `<legend>` for groups of related controls (radio buttons, checkboxes). Text for `<legend>` elements must be unique.
 - Custom controls and dynamically generated controls must also have accessible names. Add a development check that every form control has a non-empty computed accessible name.
 - Require the complete text of labels, selected values, dropdown options, validation messages, and table values to remain available. Prefer wrapping or resizing; do not use irreversible ellipsis or clipping for essential content.
 - When an asterisk is used, require visible instructions before the form: “Fields marked with an asterisk (*) are required.” The asterisk should be hidden from screen readers if the control already exposes its required state programmatically.
