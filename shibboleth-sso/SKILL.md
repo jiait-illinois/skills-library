@@ -20,11 +20,9 @@ Shibboleth integration.
 
 - OIDC issuer / base endpoint: `https://shibboleth.illinois.edu`
 - OIDC discovery document: `https://shibboleth.illinois.edu/.well-known/openid-configuration`
-<!-- TODO: Use OIDC-specific logout endpoint once newer logout functionality is implemented (https://shibboleth.illinois.edu/idp/profile/oidc/logout) -->
 - Logout endpoint: `https://shibboleth.illinois.edu/idp/profile/Logout`
 - Default scopes: `openid profile email`
 - Default redirect URI path: `/auth/callback`
-<!-- TODO: Verify this works with Shib server config update -->
 - Default client ID pattern, unless the user specifies otherwise: `myservice.myunit.illinois.edu`
 
 ## Library Selection
@@ -42,24 +40,22 @@ When the best choice is not obvious, inspect the dependency manifests, lockfiles
 Submit required claims only if explicitly requested by the user **AND** they're supported by the selected OIDC library, eg.:
 ```json
 {
-    "userinfo": {
-		"eduperson_principal_name": {"essential": true},
-		"preferred_username": {"essential": true},
-		"uiucedu_uin": {"essential": true}
-    }
+  "userinfo": {
+    "eduperson_principal_name": {"essential": true},
+    "preferred_username": {"essential": true},
+    "uiucedu_uin": {"essential": true}
+  }
 }
 ```
 
 ## Session Mapping
 
-<!-- TODO: NetID won't be available on the id_token until Keith updates production config in a couple weeks -->
-Unless the user explicitly says to persist different ID token attributes, map the identity values available in the ID token userinfo claim set onto the client session user object as follows:
-- `preferred_username` -> `netid`
-
 If the user requests to save any of the following attributes on the client session user object, they must be fetched from the userinfo endpoint and mapped accordingly:
 | Client Session Attribute | UserInfo Endpoint Attribute |
 | ------------------------ | --------------------------- |
 | `uin`                    | `uiucedu_uin`               |
+| `netid`                  | `preferred_username`        |
+| `email`                  | `eduperson_principal_name`  |
 | `name`                   | `name`                      |
 | `first_name`             | `given_name`                |
 | `middle_name`            | `middle_name`               |
@@ -91,7 +87,6 @@ Avoid sending a UserInfo request unless required by the user's specifications.
 	- Request the required claims above when no other requirement set is provided.
 	- Set the callback path to `/auth/callback` unless the user specifies another route.
 4. Wire the session.
-	- Map `preferred_username` to `netid` in the client session user info unless told otherwise.
 	- Keep the minimum user profile data needed by the app.
 	- Avoid introducing a dependency on the userinfo endpoint unless explicitly required.
 5. Implement sign-in and sign-out.
