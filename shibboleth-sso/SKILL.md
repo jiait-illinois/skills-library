@@ -20,7 +20,7 @@ Shibboleth integration.
 
 - OIDC issuer / base endpoint: `https://shibboleth.illinois.edu`
 - OIDC discovery document: `https://shibboleth.illinois.edu/.well-known/openid-configuration`
-<!-- TODO: Use OIDC-specific logout endpoint once newer logout functionality is implemented (https://shibboleth.illinois.edu/idp/profile/oidc/logout) -->
+<!-- TODO: Use OIDC-specific logout endpoint once newer logout functionality is implemented (https://shibboleth.illinois.edu/idp/profile/oidc/end-session) -->
 - Logout endpoint: `https://shibboleth.illinois.edu/idp/profile/Logout`
 - Default scopes: `openid profile email`
 - Default redirect URI path: `/auth/callback`
