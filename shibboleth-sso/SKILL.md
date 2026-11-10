@@ -20,12 +20,10 @@ Shibboleth integration.
 
 - OIDC issuer / base endpoint: `https://shibboleth.illinois.edu`
 - OIDC discovery document: `https://shibboleth.illinois.edu/.well-known/openid-configuration`
-<!-- TODO: Use OIDC-specific logout endpoint once newer logout functionality is implemented (https://shibboleth.illinois.edu/idp/profile/oidc/end-session) -->
-- Logout endpoint: `https://shibboleth.illinois.edu/idp/profile/Logout`
+- Logout endpoint: `https://shibboleth.illinois.edu/idp/profile/oidc/end-session`
 - Default scopes: `openid profile email`
 - Default redirect URI path: `/auth/callback`
-<!-- TODO: Verify this works with Shib server config update -->
-- Default client ID pattern, unless the user specifies otherwise: `myservice.myunit.illinois.edu`
+- Default client ID pattern, unless the user specifies otherwise: `https://myservice.myunit.illinois.edu`
 
 ## Library Selection
 
@@ -52,7 +50,6 @@ Submit required claims only if explicitly requested by the user **AND** they're 
 
 ## Session Mapping
 
-<!-- TODO: NetID won't be available on the id_token in prod until Nov. 4 -->
 Unless the user explicitly says to persist different ID token attributes, map the identity values available in the ID token userinfo claim set onto the client session user object as follows:
 - `preferred_username` -> `netid`
 
@@ -111,6 +108,10 @@ Avoid sending a UserInfo request unless required by the user's specifications.
 - If the user specifies a library, route, claim set, or session mapping, follow the user over the defaults in this skill.
 - If the app cannot support OIDC logout cleanly, implement the closest safe logout behavior and note the limitation.
 - If the workspace uses a backend-for-frontend or server-side session model, keep the OIDC tokens off the client unless the repository already does otherwise.
+
+## Gotchas
+- If the OAuth / OIDC library defaults the client authentication method to `client_secret_basic`, the `client_id` MUST omit `https://`, otherwise the username and password will be split along the `:` and result in server-side errors.
+  - Use `client_secret_post` for a `client_id` containing the URI or `client_secret_basic` for a `client_id` that drops the protocol.
 
 ## Quality Bar
 
