@@ -110,6 +110,7 @@ Avoid sending a UserInfo request unless required by the user's specifications.
 - If the workspace uses a backend-for-frontend or server-side session model, keep the OIDC tokens off the client unless the repository already does otherwise.
 
 ## Gotchas
+
 - If the OAuth / OIDC library defaults the client authentication method to `client_secret_basic`, the `client_id` MUST omit `https://`, otherwise the username and password will be split along the `:` and result in server-side errors.
   - Use `client_secret_post` for a `client_id` containing the URI or `client_secret_basic` for a `client_id` that drops the protocol.
 
