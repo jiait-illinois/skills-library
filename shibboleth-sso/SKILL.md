@@ -20,10 +20,10 @@ Shibboleth integration.
 
 - OIDC issuer / base endpoint: `https://shibboleth.illinois.edu`
 - OIDC discovery document: `https://shibboleth.illinois.edu/.well-known/openid-configuration`
-- Logout endpoint: `https://shibboleth.illinois.edu/idp/profile/Logout`
+- Logout endpoint: `https://shibboleth.illinois.edu/idp/profile/oidc/end-session`
 - Default scopes: `openid profile email`
 - Default redirect URI path: `/auth/callback`
-- Default client ID pattern, unless the user specifies otherwise: `myservice.myunit.illinois.edu`
+- Default client ID pattern, unless the user specifies otherwise: `https://myservice.myunit.illinois.edu`
 
 ## Library Selection
 
@@ -50,11 +50,13 @@ Submit required claims only if explicitly requested by the user **AND** they're 
 
 ## Session Mapping
 
+Unless the user explicitly says to persist different ID token attributes, map the identity values available in the ID token userinfo claim set onto the client session user object as follows:
+- `preferred_username` -> `netid`
+
 If the user requests to save any of the following attributes on the client session user object, they must be fetched from the userinfo endpoint and mapped accordingly:
 | Client Session Attribute | UserInfo Endpoint Attribute |
 | ------------------------ | --------------------------- |
 | `uin`                    | `uiucedu_uin`               |
-| `netid`                  | `preferred_username`        |
 | `email`                  | `eduperson_principal_name`  |
 | `name`                   | `name`                      |
 | `first_name`             | `given_name`                |
@@ -87,6 +89,7 @@ Avoid sending a UserInfo request unless required by the user's specifications.
 	- Request the required claims above when no other requirement set is provided.
 	- Set the callback path to `/auth/callback` unless the user specifies another route.
 4. Wire the session.
+	- Map `preferred_username` to `netid` in the client session user info unless told otherwise.
 	- Keep the minimum user profile data needed by the app.
 	- Avoid introducing a dependency on the userinfo endpoint unless explicitly required.
 5. Implement sign-in and sign-out.
@@ -106,6 +109,11 @@ Avoid sending a UserInfo request unless required by the user's specifications.
 - If the app cannot support OIDC logout cleanly, implement the closest safe logout behavior and note the limitation.
 - If the workspace uses a backend-for-frontend or server-side session model, keep the OIDC tokens off the client unless the repository already does otherwise.
 
+## Gotchas
+
+- If the OAuth / OIDC library defaults the client authentication method to `client_secret_basic`, the `client_id` MUST omit `https://`, otherwise the username and password will be split along the `:` and result in server-side errors.
+  - Use `client_secret_post` for a `client_id` containing the URI or `client_secret_basic` for a `client_id` that drops the protocol.
+
 ## Quality Bar
 
 The implementation is complete when:
@@ -121,9 +129,9 @@ The implementation is complete when:
 ## Example Invocations
 
 ```text
-Add Shibboleth SSO to this app using the installed OIDC library if one exists. Default to openid profile email scopes, request preferred_username and uiucedu_uin, use /auth/callback, and keep client credentials in environment variables.
+Use Authlib 1.9.1 to implement the auth flow. The following routes are auth exempt endpoints: "login", "auth_callback", "logout", "static". Display the user's netid beside the logout button once they're logged in.
 ```
 
 ```text
-Update the current auth flow for University of Illinois Shibboleth login. Use the repo's existing OAuth/OIDC stack if present, avoid the userinfo endpoint unless necessary, and map the returned identity claims into the session user object.
+Update the current auth flow for University of Illinois Shibboleth login. Save the following attributes to the session user object: uin, netid, email, name, first_name, middle_name, last_name, eduperson_affiliation.
 ```
