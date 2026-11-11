@@ -129,9 +129,9 @@ The implementation is complete when:
 ## Example Invocations
 
 ```text
-Add Shibboleth SSO to this app using the installed OIDC library if one exists. Default to openid profile email scopes, request preferred_username and uiucedu_uin, use /auth/callback, and keep client credentials in environment variables.
+Use Authlib 1.9.1 to implement the auth flow. The following routes are auth exempt endpoints: "login", "auth_callback", "logout", "static". Display the user's netid beside the logout button once they're logged in.
 ```
 
 ```text
-Update the current auth flow for University of Illinois Shibboleth login. Use the repo's existing OAuth/OIDC stack if present, avoid the userinfo endpoint unless necessary, and map the returned identity claims into the session user object.
+Update the current auth flow for University of Illinois Shibboleth login. Save the following attributes to the session user object: uin, netid, email, name, first_name, middle_name, last_name, eduperson_affiliation.
 ```
